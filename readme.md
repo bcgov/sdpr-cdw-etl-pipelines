@@ -18,5 +18,5 @@ Do this (in powershell or similar) after you clone the repo:
 1. create a venv in the current directory: `python -m venv .venv`
 2. activate the venv: `.venv\Scripts\Activate.ps1`
 3. install packages in requirements.txt by running: `pip install -r requirements.txt`
-4. sidenote: you can updte requirements.txt if you install more packages: `pip3 freeze > requirements.txt`
-This was developed using Python version 3.12.1
+4. sidenote: you can update requirements.txt if you install more packages: `pip3 freeze > requirements.txt`
+- This was developed using Python version 3.12.1
