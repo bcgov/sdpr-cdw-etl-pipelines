@@ -1,0 +1,38 @@
+import sys
+parent_dir = ".."
+sys.path.append(parent_dir)
+sys.path.append(r"C:\GitHub\hr-data-usage-agreement-etl") # this is developer-specific
+from src.chefs_api import ChefsApi
+import unittest
+import yaml
+
+# get config values
+with open('config.yml', 'r') as f:
+    config = yaml.load(f, Loader=yaml.SafeLoader)
+    api_key_secret = config['api-secret']
+    form_id = config['form-id']
+    form_version_id = config['form-version-id']
+
+# initialize ChefsApi with config values
+chefs_api = ChefsApi(
+    api_key_secret=api_key_secret, 
+    form_id=form_id, 
+    form_version_id=form_version_id
+)
+
+class TestChefsApi(unittest.TestCase):
+
+    def test_submissions_endpoint(self):
+        self.assertEqual(200, chefs_api.get(chefs_api.submissions_endpoint).status_code)
+
+    def test_status_codes_endpoint(self):
+        self.assertEqual(200, chefs_api.get(chefs_api.status_codes_endpoint).status_code)
+
+    def test_get_current_status(self):
+        submissions = chefs_api.get_json(chefs_api.submissions_endpoint)
+        a_submission_id = submissions[0]['id']
+        a_status = chefs_api.get_current_status(a_submission_id)
+        self.assertTrue(a_status in ['SUBMITTED', 'ASSIGNED', 'COMPLETED'])
+
+if __name__ == '__main__':
+    unittest.main()
