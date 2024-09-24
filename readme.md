@@ -11,4 +11,12 @@
 - Access to the SDPR KeePass file and password.
 - The KeePass file is expected to be located at: `S:\Info Tech\Operations - Applications (6820)\Local appl (by name) (6820-30)\Corporate Data Warehouse\Cognos 11 and Data Stage\Data Stage\Credentials.kdbx`.
     * If it's not on your computer, then you need to update the path in src.oracle_db. Just search the code for `kdbx_path`.
-- The `config.yml` file.
+- The `config.yml` file. See `config-template.yml`.
+
+### Setting Up Your Virtual Environment
+Do this (in powershell or similar) after you clone the repo:
+1. create a venv in the current directory: `python -m venv .venv`
+2. activate the venv: `.venv\Scripts\Activate.ps1`
+3. install packages in requirements.txt by running: `pip install -r requirements.txt`
+4. sidenote: you can updte requirements.txt if you install more packages: `pip3 freeze > requirements.txt`
+This was developed using Python version 3.12.1
