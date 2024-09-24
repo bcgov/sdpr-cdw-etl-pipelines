@@ -1,5 +1,5 @@
 # This is just a template.
 # Add your values here and rename file to config.yml
 api-secret: "[you api key secret]"
-form-id: "[your form id]"
-form-version-id: "[your form version id]"
+form-id: "4efa74d1-f63a-41b6-bda8-f8380d98e8aa"
+form-version-id: "091cdf1f-cd5f-4867-aa5b-987df7a2fbca"
