@@ -46,7 +46,10 @@ class ChefsApi:
             timeout=1800,
         )
 
-        return response
+        if response.status_code == 200:
+            return response
+        else:
+            raise requests.exceptions.HTTPError(response.status_code)
 
     def get_json(self, endpoint: str) -> dict:
         response = self.get(endpoint)
