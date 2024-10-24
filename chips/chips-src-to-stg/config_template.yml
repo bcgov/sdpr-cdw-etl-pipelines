@@ -1,0 +1,13 @@
+# copy and renmae this file to config.yml upon initial clone
+
+# The path to the folder for the PeopleSoft API ETL
+# e.g. "E:\\ETL_V8\\Python\\peoplesoft-etl-pipeline"
+project_sys_path: "[path to the root of this project]"
+
+# the Oracle connection string subkey in Windows Registry for the ETL user
+# e.g. "CW1P_ETL"
+etl_conn_str_subkey: "[Windows Registry subkey for the ETL user Oracle connection string]"
+
+# the Oracle connection string subkey in Windows Registry for the CHIPS_STG user
+# e.g. "CW1T_CHIPS_STG"
+chips_stg_conn_str_subkey: "[Windows Registry subkey for the CHIPS_STG user Oracle connection string]"

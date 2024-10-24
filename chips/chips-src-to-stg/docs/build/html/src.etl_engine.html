@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.etl_engine module &mdash; PeopleSoft ETL Pipeline 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.peoplesoft_etl module" href="src.peoplesoft_etl.html" />
+    <link rel="prev" title="PeopleSoft ETL Pipeline Documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PeopleSoft ETL Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.etl_engine module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.etl_engine.AsyncETLException"><code class="docutils literal notranslate"><span class="pre">AsyncETLException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.etl_engine.ETLEngine"><code class="docutils literal notranslate"><span class="pre">ETLEngine</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.add_records_to_table"><code class="docutils literal notranslate"><span class="pre">ETLEngine.add_records_to_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.etl_task"><code class="docutils literal notranslate"><span class="pre">ETLEngine.etl_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.extract"><code class="docutils literal notranslate"><span class="pre">ETLEngine.extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.get_all_failed_request_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.get_all_failed_request_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.insert_records_using_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.insert_records_using_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.load"><code class="docutils literal notranslate"><span class="pre">ETLEngine.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.rebuild_table_using_pagination"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rebuild_table_using_pagination()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.rebuild_table_using_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rebuild_table_using_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.rerun_etl_for_failed_requests"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rerun_etl_for_failed_requests()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#src.etl_engine.ETLEngine.transform"><code class="docutils literal notranslate"><span class="pre">ETLEngine.transform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#src.etl_engine.ExtractException"><code class="docutils literal notranslate"><span class="pre">ExtractException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.etl_engine.LoadException"><code class="docutils literal notranslate"><span class="pre">LoadException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.etl_engine.TransformException"><code class="docutils literal notranslate"><span class="pre">TransformException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_etl.html">src.peoplesoft_etl module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_peoplesoft_api.html">src.async_peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_api.html">src.peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_worker.html">src.async_worker module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.oracle_db.html">src.oracle_db module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.windows_registry.html">src.windows_registry module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PeopleSoft ETL Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.etl_engine module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.etl_engine.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.etl_engine">
+<span id="src-etl-engine-module"></span><h1>src.etl_engine module<a class="headerlink" href="#module-src.etl_engine" title="Link to this heading"></a></h1>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.etl_engine.AsyncETLException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.etl_engine.</span></span><span class="sig-name descname"><span class="pre">AsyncETLException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'An</span> <span class="pre">exception</span> <span class="pre">occurred</span> <span class="pre">during</span> <span class="pre">an</span> <span class="pre">async</span> <span class="pre">ETL</span> <span class="pre">task'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.etl_engine.AsyncETLException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised during an async ETL task.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.etl_engine.</span></span><span class="sig-name descname"><span class="pre">ETLEngine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api:</span> <span class="pre">~src.async_peoplesoft_api.AsyncPeopleSoftAPI</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_endpoint:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracledb:</span> <span class="pre">~src.oracle_db.OracleDB</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracle_table_owner:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracle_table_name:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">worker:</span> <span class="pre">~src.async_worker.AsyncWorker</span> <span class="pre">=</span> <span class="pre">&lt;src.async_worker.AsyncWorker</span> <span class="pre">object&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.etl_engine.ETLEngine" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>ETL: An ETL object consumes data from an API endpoint, transforms it, and loads it into a database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api</strong> (<a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI" title="src.async_peoplesoft_api.AsyncPeopleSoftAPI"><em>AsyncPeopleSoftAPI</em></a>) – The API object for data retrieval.</p></li>
+<li><p><strong>api_endpoint</strong> (<em>str</em>) – The name of the API endpoint providing the source data (e.g. ‘ps_deduction_class’).</p></li>
+<li><p><strong>oracledb</strong> (<a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><em>OracleDB</em></a>) – The database object for Oracle interactions.</p></li>
+<li><p><strong>oracle_table_owner</strong> (<em>str</em>) – The owner of the Oracle target table (e.g. ‘CHIPS_STG’).</p></li>
+<li><p><strong>oracle_table_name</strong> (<em>str</em>) – The name of the Oracle target table (e.g. ‘PS_DEDUCTION_CLASS’).</p></li>
+<li><p><strong>worker</strong> (<a class="reference internal" href="src.async_worker.html#src.async_worker.AsyncWorker" title="src.async_worker.AsyncWorker"><em>AsyncWorker</em></a><em>, </em><em>optional</em>) – The worker for managing async tasks. Defaults to AsyncWorker().</p></li>
+<li><p><strong>cache</strong> (<em>dict</em><em>, </em><em>optional</em>) – A cache for storing intermediate data. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.add_records_to_table">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_records_to_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.add_records_to_table" title="Link to this definition"></a></dt>
+<dd><p>Gets items from the endpoint for the specified params and runs etl_task to load them into
+the associated Oracle table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – The request parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.etl_task">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">etl_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClientSession</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.etl_task" title="Link to this definition"></a></dt>
+<dd><p>Makes a single GET request to the endpoint and returns only the ‘items’ in the response,
+then transforms and loads the data into Oracle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>session</strong> (<em>aiohttp.ClientSession</em>) – The aiohttp session.</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – The request parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.extract">
+<span class="sig-name descname"><span class="pre">extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offsets</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.extract" title="Link to this definition"></a></dt>
+<dd><p>Gets data from the API and returns it in a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – The maximum number of records to retrieve. Defaults to 10000.</p></li>
+<li><p><strong>offsets</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – List of offsets for pagination. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A DataFrame containing the extracted data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.etl_engine.ExtractException" title="src.etl_engine.ExtractException"><strong>ExtractException</strong></a> – If an error occurs during extraction.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.get_all_failed_request_params">
+<span class="sig-name descname"><span class="pre">get_all_failed_request_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><span class="pre">OracleDB</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.get_all_failed_request_params" title="Link to this definition"></a></dt>
+<dd><p>Gets failed requests for the last run of a table build from the Oracle request log table
+and retries the full ETL cycle for those requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db</strong> (<a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><em>OracleDB</em></a>) – The database object for Oracle interactions.</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint to check.</p></li>
+<li><p><strong>table</strong> (<em>str</em>) – The name of the table.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of failed request parameters.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.insert_records_using_params">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">insert_records_using_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_of_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_records_per_task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_requests_per_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.insert_records_using_params" title="Link to this definition"></a></dt>
+<dd><p>Requests records for each param in list_of_params and loads the records into the associated
+table in Oracle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>list_of_params</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of parameters for each request.</p></li>
+<li><p><strong>n_records_per_task</strong> (<em>int</em>) – Number of records to fetch per task.</p></li>
+<li><p><strong>n_requests_per_session</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of requests per session. Defaults to 500.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transformed_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate_first</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.load" title="Link to this definition"></a></dt>
+<dd><p>Loads data into the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transformed_data</strong> (<em>pd.DataFrame</em>) – The transformed data to be loaded into the database.</p></li>
+<li><p><strong>truncate_first</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, truncates the table before loading. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.etl_engine.LoadException" title="src.etl_engine.LoadException"><strong>LoadException</strong></a> – If an error occurs during loading.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.rebuild_table_using_pagination">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rebuild_table_using_pagination</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_records_per_task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_requests_per_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.rebuild_table_using_pagination" title="Link to this definition"></a></dt>
+<dd><p>Runs all ETL iterations to load all the data from an endpoint to a table.
+Opens a new session every n_requests_per_session and creates pages based on the total
+number of records at the endpoint at the time of execution and the record limit per request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>n_records_per_task</strong> (<em>int</em>) – Number of records to fetch per task.</p></li>
+<li><p><strong>n_requests_per_session</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of requests per session. Defaults to 500.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.rebuild_table_using_params">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rebuild_table_using_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_of_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_records_per_task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_requests_per_session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.rebuild_table_using_params" title="Link to this definition"></a></dt>
+<dd><p>Runs all ETL iterations to load all the data from an endpoint to a table.
+Opens a new session every n_requests_per_session and processes each set of params.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>list_of_params</strong> (<em>list</em><em>[</em><em>dict</em><em>]</em>) – List of parameters for each request.</p></li>
+<li><p><strong>n_records_per_task</strong> (<em>int</em>) – Number of records to fetch per task.</p></li>
+<li><p><strong>n_requests_per_session</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of requests per session. Defaults to 500.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.rerun_etl_for_failed_requests">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rerun_etl_for_failed_requests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.rerun_etl_for_failed_requests" title="Link to this definition"></a></dt>
+<dd><p>After at least one run of the ETL is complete, get the requests that failed and re-run them.
+This function iteratively attempts to process any remaining failed requests.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.etl_engine.ETLEngine.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extracted_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.etl_engine.ETLEngine.transform" title="Link to this definition"></a></dt>
+<dd><p>Transforms the extracted data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>extracted_data</strong> (<em>pd.DataFrame</em>) – The extracted data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transformed data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#src.etl_engine.TransformException" title="src.etl_engine.TransformException"><strong>TransformException</strong></a> – If an error occurs during transformation.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Properties created:</dt><dd><p>self.data_model_discrepancies: Data model discrepancies between the API data and the Oracle data.
+self.data_model_consistencies: Data model consistencies between the API data and the Oracle data.
+self.transformed_data: The transformed data for further operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.etl_engine.ExtractException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.etl_engine.</span></span><span class="sig-name descname"><span class="pre">ExtractException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'An</span> <span class="pre">exception</span> <span class="pre">occurred</span> <span class="pre">during</span> <span class="pre">extraction'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.etl_engine.ExtractException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised during extraction process.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.etl_engine.LoadException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.etl_engine.</span></span><span class="sig-name descname"><span class="pre">LoadException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'An</span> <span class="pre">exception</span> <span class="pre">occurred</span> <span class="pre">during</span> <span class="pre">load'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.etl_engine.LoadException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised during loading process.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.etl_engine.TransformException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.etl_engine.</span></span><span class="sig-name descname"><span class="pre">TransformException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'An</span> <span class="pre">exception</span> <span class="pre">occurred</span> <span class="pre">during</span> <span class="pre">transformation'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.etl_engine.TransformException" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception raised during transformation process.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="PeopleSoft ETL Pipeline Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.peoplesoft_etl.html" class="btn btn-neutral float-right" title="src.peoplesoft_etl module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, James Scott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

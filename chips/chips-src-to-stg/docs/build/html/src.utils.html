@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.utils module &mdash; PeopleSoft ETL Pipeline 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.async_worker module" href="src.async_worker.html" />
+    <link rel="prev" title="src.peoplesoft_api module" href="src.peoplesoft_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PeopleSoft ETL Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.etl_engine.html">src.etl_engine module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_etl.html">src.peoplesoft_etl module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_peoplesoft_api.html">src.async_peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_api.html">src.peoplesoft_api module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.apply_data_type_transformations"><code class="docutils literal notranslate"><span class="pre">apply_data_type_transformations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.bind_vars"><code class="docutils literal notranslate"><span class="pre">bind_vars()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.chunks"><code class="docutils literal notranslate"><span class="pre">chunks()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.data_model_consistencies"><code class="docutils literal notranslate"><span class="pre">data_model_consistencies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.data_model_discrepancies"><code class="docutils literal notranslate"><span class="pre">data_model_discrepancies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.data_model_mapping"><code class="docutils literal notranslate"><span class="pre">data_model_mapping()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.equate_col_names"><code class="docutils literal notranslate"><span class="pre">equate_col_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.flatten"><code class="docutils literal notranslate"><span class="pre">flatten()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.insert_cols_str"><code class="docutils literal notranslate"><span class="pre">insert_cols_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.is_nan"><code class="docutils literal notranslate"><span class="pre">is_nan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.merge_two_dicts"><code class="docutils literal notranslate"><span class="pre">merge_two_dicts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.null_to_empty_str"><code class="docutils literal notranslate"><span class="pre">null_to_empty_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.source_data_model"><code class="docutils literal notranslate"><span class="pre">source_data_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.split_int"><code class="docutils literal notranslate"><span class="pre">split_int()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.split_page_size_params"><code class="docutils literal notranslate"><span class="pre">split_page_size_params()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.str_to_datetime"><code class="docutils literal notranslate"><span class="pre">str_to_datetime()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.str_to_float"><code class="docutils literal notranslate"><span class="pre">str_to_float()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.str_to_int"><code class="docutils literal notranslate"><span class="pre">str_to_int()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.target_data_model"><code class="docutils literal notranslate"><span class="pre">target_data_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.timedelta_to_nearest_sec"><code class="docutils literal notranslate"><span class="pre">timedelta_to_nearest_sec()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.utils.transform_data_type"><code class="docutils literal notranslate"><span class="pre">transform_data_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_worker.html">src.async_worker module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.oracle_db.html">src.oracle_db module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.windows_registry.html">src.windows_registry module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PeopleSoft ETL Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.utils module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.utils">
+<span id="src-utils-module"></span><h1>src.utils module<a class="headerlink" href="#module-src.utils" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.apply_data_type_transformations">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">apply_data_type_transformations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_model_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.apply_data_type_transformations" title="Link to this definition"></a></dt>
+<dd><p>Apply data type transformations to a DataFrame based on a mapping.</p>
+<p>This function transforms the columns of the provided DataFrame (<cite>df</cite>)
+according to the data type specifications in the <cite>data_model_mapping</cite>.
+Each column is processed based on its corresponding Oracle data type
+and nullable indicator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_model_mapping</strong> (<em>pd.DataFrame</em>) – A DataFrame containing the mapping
+of source column names, target data
+types, and nullable indicators.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – A DataFrame containing data from the API that needs
+to be transformed to fit the data model for the
+target Oracle table.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The transformed DataFrame with columns adjusted to fit</dt><dd><p>the target Oracle data types.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function assumes that the <cite>transform_data_type</cite> function is
+defined elsewhere.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.bind_vars">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">bind_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_of_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#src.utils.bind_vars" title="Link to this definition"></a></dt>
+<dd><p>Generate a string of bind variables for a SQL insert statement.</p>
+<p>This function creates a string of bind variables formatted for use
+in a dynamically generated SQL <cite>executemany</cite> insert statement.
+The bind variables are indexed starting from 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number_of_cols</strong> (<em>int</em>) – The number of columns for which to generate
+bind variables.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A string containing the bind variables in the format</dt><dd><p>”( :1, :2, …, :n )”, where n is the number of columns.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The resulting string can be used in SQL statements for
+parameterized queries to prevent SQL injection.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.chunks">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">chunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.utils.chunks" title="Link to this definition"></a></dt>
+<dd><p>Yield successive n-sized chunks from lst.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lst</strong> (<em>list</em>) – The list to be divided into chunks.</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – The size of each chunk.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>list</em> – Subsequent chunks of the specified size.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.data_model_consistencies">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">data_model_consistencies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_model_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.data_model_consistencies" title="Link to this definition"></a></dt>
+<dd><p>Identify consistent entries in the data model mapping.</p>
+<p>This function analyzes the data model mapping DataFrame to find
+columns that are present in both the source and target data models.
+It returns a DataFrame containing only the consistent entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_model_mapping</strong> (<em>pd.DataFrame</em>) – The data model mapping DataFrame
+returned by the <cite>data_model_mapping</cite> function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing rows where both the source</dt><dd><p>column and the target column are present (not null).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Consistencies indicate columns that have a corresponding match
+in both data models, allowing for further validation or processing.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.data_model_discrepancies">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">data_model_discrepancies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_model_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.data_model_discrepancies" title="Link to this definition"></a></dt>
+<dd><p>Identify discrepancies in the data model mapping.</p>
+<p>This function analyzes the data model mapping DataFrame to find
+columns that are missing from either the source or target data model.
+It returns a DataFrame containing only the discrepancies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_model_mapping</strong> (<em>pd.DataFrame</em>) – The data model mapping DataFrame
+returned by the <cite>data_model_mapping</cite> function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing rows where either the source</dt><dd><p>column or the target column is missing (NaN).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Discrepancies indicate columns that do not have a corresponding match
+in the other data model.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.data_model_mapping">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">data_model_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_data_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_data_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.data_model_mapping" title="Link to this definition"></a></dt>
+<dd><p>Create a mapping DataFrame between source and target data models.</p>
+<p>This function compares the source data model and the target data model
+by merging them based on their column names. The comparison is case-insensitive.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_data_model</strong> (<em>pd.DataFrame</em>) – The source data model returned
+by the <cite>source_data_model</cite> function.</p></li>
+<li><p><strong>target_data_model</strong> (<em>pd.DataFrame</em>) – The target data model returned
+by the <cite>target_data_model</cite> function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing the mapping between source and</dt><dd><p>target data models, with the following columns:
+- “col_name_src”: The name of the source column.
+- “col_name_target”: The name of the target column.
+- “data_type_src”: The data type of the source column.
+- “data_type_target”: The data type of the target column.
+- “data_length_target”: The length of the target column.
+- “nullable_target”: The nullability of the target column.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The function performs an outer merge to include all columns from both
+models, even if there is no direct match.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.equate_col_names">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">equate_col_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_model_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name_src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name_target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.equate_col_names" title="Link to this definition"></a></dt>
+<dd><p>Reconcile differences in source and target column names in a data model mapping.</p>
+<p>This function updates the data model mapping DataFrame to reflect the
+equivalence of a source column name and a target column name when
+their data matches, despite differing names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_model_mapping</strong> (<em>pd.DataFrame</em>) – The data model mapping DataFrame.</p></li>
+<li><p><strong>col_name_src</strong> (<em>str</em>) – The source column name.</p></li>
+<li><p><strong>col_name_target</strong> (<em>str</em>) – The target column name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The updated data model mapping DataFrame with reconciled</dt><dd><p>source and target columns.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function modifies the input DataFrame and drops old source
+field rows that have been merged into the target column row.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.flatten">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">flatten</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">list_of_lists</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.utils.flatten" title="Link to this definition"></a></dt>
+<dd><p>Flatten a list of lists into a single list.</p>
+<p>This function takes a list of lists and returns a single list
+containing all the elements from the nested lists.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>list_of_lists</strong> – A list of lists.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A flattened list containing all elements from the input lists.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.insert_cols_str">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">insert_cols_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#src.utils.insert_cols_str" title="Link to this definition"></a></dt>
+<dd><p>Format a list of column names for SQL insert statements.</p>
+<p>This function takes a list of column names and formats them into a
+string suitable for use in an SQL insert statement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cols</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of column names.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A formatted string of column names, e.g., “(col1, col2, …)”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.is_nan">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">is_nan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#src.utils.is_nan" title="Link to this definition"></a></dt>
+<dd><p>Check if a value is NaN (Not a Number).</p>
+<p>This function checks if the provided value is NaN, including cases
+where a NumPy NaN has been converted to a standard Python NaN type
+(<cite>float(‘nan’)</cite>). It returns True if the value is NaN, and False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – The value to check for NaN.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the value is NaN, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function attempts to convert the value to a float. If the
+conversion raises a ValueError, the function returns False.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.merge_two_dicts">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">merge_two_dicts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.utils.merge_two_dicts" title="Link to this definition"></a></dt>
+<dd><p>Merge two dictionaries into a new dictionary.</p>
+<p>This function creates a shallow copy of the first dictionary and
+updates it with key-value pairs from the second dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>dict</em>) – The first dictionary.</p></li>
+<li><p><strong>y</strong> (<em>dict</em>) – The second dictionary.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new dictionary containing the merged contents of x and y.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.null_to_empty_str">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">null_to_empty_str</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">null_val</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#src.utils.null_to_empty_str" title="Link to this definition"></a></dt>
+<dd><p>Convert None to an empty string.</p>
+<p>This function checks if the input is None. If it is, the function
+returns an empty string; otherwise, it returns the input value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>null_val</strong> – The input value, which can be None or any other type.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>An empty string if the input is None, or the original</dt><dd><p>input value if it is not None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.source_data_model">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">source_data_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.source_data_model" title="Link to this definition"></a></dt>
+<dd><p>Create a data model DataFrame from the source data.</p>
+<p>This function generates a DataFrame that represents the data model
+of the input source data, including column names and their corresponding
+data types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>source_data</strong> (<em>pd.DataFrame</em>) – The source DataFrame for which the data
+model is to be created.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing two columns: “col_name_src”</dt><dd><p>and “data_type_src”, representing the column names
+and their respective data types in the source data.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>The resulting DataFrame can be used for mapping and transforming
+data types when integrating with other data models.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.split_int">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">split_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">an_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.utils.split_int" title="Link to this definition"></a></dt>
+<dd><p>Split an integer into two integers that add up to it.</p>
+<p>If the integer is even, it returns a list of the form
+[an_int / 2, an_int / 2]. If odd, it returns
+[an_int / 2 - 0.5, an_int / 2 + 0.5].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>an_int</strong> (<em>int</em>) – The integer to split.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list containing two integers that sum to an_int.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.split_page_size_params">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">split_page_size_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#src.utils.split_page_size_params" title="Link to this definition"></a></dt>
+<dd><p>Split pagination parameters into two sets with halved limits.</p>
+<p>This function takes a dictionary of request parameters containing
+‘limit’ and ‘offset’ and returns two dictionaries with the limit
+halved, adjusting the second offset accordingly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – A dictionary containing ‘limit’ and ‘offset’ keys.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A list containing two dictionaries with updated</dt><dd><p>pagination parameters.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.str_to_datetime">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">str_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">datetime</span></span></span><a class="headerlink" href="#src.utils.str_to_datetime" title="Link to this definition"></a></dt>
+<dd><p>Convert a string representation of a date and time to a datetime object.</p>
+<p>This function takes a string in the ISO 8601 format (e.g.,
+“YYYY-MM-DDTHH:MM:SSZ” or “YYYY-MM-DDTHH:MM:SS.ssssssZ”) and
+returns the corresponding datetime object. If the input is
+None, the function returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string_date</strong> (<em>str</em>) – The string representation of the date and
+time, or None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The corresponding datetime object if the input</dt><dd><p>string is valid, or None if the input is None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the string_date is not in the expected format.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.str_to_float">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">str_to_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_float</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#src.utils.str_to_float" title="Link to this definition"></a></dt>
+<dd><p>Convert a string representation of a float to a float object.</p>
+<p>This function takes a string that represents a floating-point number
+and returns the corresponding float object. If the input is None,
+the function returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string_float</strong> (<em>str</em>) – The string representation of the float,
+or None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The corresponding float object if the input string is</dt><dd><p>valid, or None if the input is None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the string_float cannot be converted to a float.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.str_to_int">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">str_to_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string_int</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.utils.str_to_int" title="Link to this definition"></a></dt>
+<dd><p>Convert a string representation of an integer to an int object.</p>
+<p>This function takes a string that represents an integer and returns
+the corresponding int object. If the input is None, the function
+returns None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string_int</strong> (<em>str</em>) – The string representation of the integer,
+or None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The corresponding int object if the input string is valid,</dt><dd><p>or None if the input is None.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the string_int cannot be converted to an integer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.target_data_model">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">target_data_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#src.utils.target_data_model" title="Link to this definition"></a></dt>
+<dd><p>Retrieve the data model for a specified Oracle table.</p>
+<p>This function queries the Oracle database to obtain the column names,
+data types, lengths, and nullability information for the specified
+table owned by the given user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>owner</strong> (<em>str</em>) – The owner of the Oracle table.</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – The name of the Oracle table.</p></li>
+<li><p><strong>db</strong> – An OracleDB object that provides the method to execute queries
+and return results as a DataFrame.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing the data model for the specified</dt><dd><p>table, with columns:
+- “col_name_target”: The name of the column.
+- “data_type_target”: The data type of the column.
+- “data_length_target”: The length of the column.
+- “nullable_target”: Indicator of whether the column is nullable.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function assumes that the <cite>db</cite> object has a <cite>query_to_df</cite>
+method that executes the provided SQL query and returns the result
+as a pandas DataFrame.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.timedelta_to_nearest_sec">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">timedelta_to_nearest_sec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">timedelta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#src.utils.timedelta_to_nearest_sec" title="Link to this definition"></a></dt>
+<dd><p>Convert a timedelta to a string in the format HH:MM:SS.</p>
+<p>This function takes a timedelta object and converts it into a string
+representation that includes hours, minutes, and seconds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>timedelta</strong> (<em>datetime</em>) – A timedelta object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string formatted as “HH:MM:SS”.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.transform_data_type">
+<span class="sig-prename descclassname"><span class="pre">src.utils.</span></span><span class="sig-name descname"><span class="pre">transform_data_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oracle_data_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nullable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.utils.transform_data_type" title="Link to this definition"></a></dt>
+<dd><p>Transform the input value to the corresponding Python type based on the Oracle data type.</p>
+<p>This function takes a value and casts it to the appropriate Python type
+that fits the Oracle data model. It also considers whether the value
+is nullable based on the nullable indicator provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> – The input value to be transformed.</p></li>
+<li><p><strong>oracle_data_type</strong> (<em>str</em>) – The Oracle data type, such as “VARCHAR2”,
+“NUMBER”, “DATE”, etc.</p></li>
+<li><p><strong>nullable</strong> (<em>str</em>) – A flag indicating whether the column is nullable
+(“Y” for yes, “N” for no).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value casted to the appropriate Python type based on the Oracle
+data type. If the column is not nullable and the value is None,
+an empty string is returned.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This function assumes that <cite>null_to_empty_str</cite>, <cite>str_to_float</cite>,
+and <cite>str_to_datetime</cite> are defined elsewhere.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.peoplesoft_api.html" class="btn btn-neutral float-left" title="src.peoplesoft_api module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.async_worker.html" class="btn btn-neutral float-right" title="src.async_worker module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, James Scott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

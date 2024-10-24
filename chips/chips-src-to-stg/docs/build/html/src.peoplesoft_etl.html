@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.peoplesoft_etl module &mdash; PeopleSoft ETL Pipeline 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.async_peoplesoft_api module" href="src.async_peoplesoft_api.html" />
+    <link rel="prev" title="src.etl_engine module" href="src.etl_engine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PeopleSoft ETL Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="src.etl_engine.html">src.etl_engine module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">src.peoplesoft_etl module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.build_tables"><code class="docutils literal notranslate"><span class="pre">build_tables()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.get_last_rerun_of_failed_requests"><code class="docutils literal notranslate"><span class="pre">get_last_rerun_of_failed_requests()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.manually_add_records_to_table"><code class="docutils literal notranslate"><span class="pre">manually_add_records_to_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.peoplesoft_etl_engine"><code class="docutils literal notranslate"><span class="pre">peoplesoft_etl_engine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.rebuild_ps_pay_oth_earns_by_date"><code class="docutils literal notranslate"><span class="pre">rebuild_ps_pay_oth_earns_by_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.run_etl_worker"><code class="docutils literal notranslate"><span class="pre">run_etl_worker()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.set_n_records_per_task"><code class="docutils literal notranslate"><span class="pre">set_n_records_per_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.update_last_n_pay_end_dates"><code class="docutils literal notranslate"><span class="pre">update_last_n_pay_end_dates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.update_max_pay_end_dt_in_ps_pay_oth_earns_by_date"><code class="docutils literal notranslate"><span class="pre">update_max_pay_end_dt_in_ps_pay_oth_earns_by_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.update_pay_end_dates_in_range"><code class="docutils literal notranslate"><span class="pre">update_pay_end_dates_in_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#src.peoplesoft_etl.upsert_table_build_status"><code class="docutils literal notranslate"><span class="pre">upsert_table_build_status()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_peoplesoft_api.html">src.async_peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_api.html">src.peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_worker.html">src.async_worker module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.oracle_db.html">src.oracle_db module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.windows_registry.html">src.windows_registry module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PeopleSoft ETL Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src.peoplesoft_etl module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.peoplesoft_etl.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-src.peoplesoft_etl">
+<span id="src-peoplesoft-etl-module"></span><h1>src.peoplesoft_etl module<a class="headerlink" href="#module-src.peoplesoft_etl" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.build_tables">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">build_tables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint_table_pairs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_task_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_task_sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.build_tables" title="Link to this definition"></a></dt>
+<dd><p>Builds tables by processing records from specified API endpoints.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint_table_pairs</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of tuples containing endpoint and table name.</p></li>
+<li><p><strong>n_task_workers</strong> (<em>int</em>) – Number of ETL tasks that can run concurrently.</p></li>
+<li><p><strong>start_task_sleep_time</strong> (<em>int</em>) – Sleep time after API requests to prevent server overload.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.get_last_rerun_of_failed_requests">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">get_last_rerun_of_failed_requests</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><span class="pre">OracleDB</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.peoplesoft_etl.get_last_rerun_of_failed_requests" title="Link to this definition"></a></dt>
+<dd><p>Retrieves the last rerun timestamp of failed requests from the ETL status table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db</strong> (<a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><em>OracleDB</em></a>) – The OracleDB instance used for database operations.</p></li>
+<li><p><strong>table</strong> (<em>str</em>) – The name of the table to query.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The last rerun timestamp of failed requests.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>datetime</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.manually_add_records_to_table">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">manually_add_records_to_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.peoplesoft_etl.manually_add_records_to_table" title="Link to this definition"></a></dt>
+<dd><p>Adds records to the specified Oracle table from the given API endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint for the data.</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – The parameters for the API request.</p></li>
+<li><p><strong>table_owner</strong> (<em>str</em>) – The owner of the target Oracle table.</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – The name of the target Oracle table.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.peoplesoft_etl_engine">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">peoplesoft_etl_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_count</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_task_sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></span><a class="headerlink" href="#src.peoplesoft_etl.peoplesoft_etl_engine" title="Link to this definition"></a></dt>
+<dd><p>Returns an ETLEngine suitable for ETL of PeopleSoft tables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint for the data.</p></li>
+<li><p><strong>table_owner</strong> (<em>str</em>) – The owner of the target Oracle table.</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – The name of the target Oracle table.</p></li>
+<li><p><strong>task_count</strong> (<em>int</em>) – The number of concurrent tasks.</p></li>
+<li><p><strong>start_task_sleep_time</strong> (<em>int</em>) – Sleep time after API requests.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configured ETLEngine instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine">ETLEngine</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.rebuild_ps_pay_oth_earns_by_date">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">rebuild_ps_pay_oth_earns_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etl_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.rebuild_ps_pay_oth_earns_by_date" title="Link to this definition"></a></dt>
+<dd><p>Gets all records from ps_pay_oth_earns_by_date for all available pay end dates
+and loads them into the Oracle table after first truncating it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>etl_engine</strong> (<a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><em>ETLEngine</em></a>) – The ETLEngine instance used for ETL operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.run_etl_worker">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">run_etl_worker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etl_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_records_per_task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_workers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_task_sleep_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.run_etl_worker" title="Link to this definition"></a></dt>
+<dd><p>Runs async ETL tasks using a worker.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>etl_engine</strong> (<a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><em>ETLEngine</em></a>) – The ETLEngine instance for ETL operations.</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – The API endpoint.</p></li>
+<li><p><strong>n_records_per_task</strong> (<em>int</em>) – The number of records processed per ETL task.</p></li>
+<li><p><strong>n_workers</strong> (<em>int</em>) – The number of workers running asynchronously.</p></li>
+<li><p><strong>start_task_sleep_time</strong> (<em>float</em>) – Sleep time in seconds after adding a task to relieve load on API.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.set_n_records_per_task">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">set_n_records_per_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_fields_at_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.set_n_records_per_task" title="Link to this definition"></a></dt>
+<dd><p>Returns the number of records to process per ETL task based on the number of fields.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>n_fields_at_endpoint</strong> (<em>int</em>) – The number of fields at the endpoint.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The number of records to process per ETL task.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.update_last_n_pay_end_dates">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">update_last_n_pay_end_dates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etl_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_n_pay_end_dates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.update_last_n_pay_end_dates" title="Link to this definition"></a></dt>
+<dd><p>For endpoints that have ‘payenddate’ as a query parameter and ‘PAY_END_DT’ as the corresponding
+column in the Oracle table, this function gets all records for the last_n_pay_end_dates from
+endpoint and loads them into table_name in Oracle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>etl_engine</strong> (<a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><em>ETLEngine</em></a>) – The ETLEngine instance used for ETL operations.</p></li>
+<li><p><strong>last_n_pay_end_dates</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of last pay end dates to process (default is 1).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.update_max_pay_end_dt_in_ps_pay_oth_earns_by_date">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">update_max_pay_end_dt_in_ps_pay_oth_earns_by_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etl_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.update_max_pay_end_dt_in_ps_pay_oth_earns_by_date" title="Link to this definition"></a></dt>
+<dd><p>Updates the records for the maximum available pay end date from the specified endpoint.</p>
+<p>Deletes existing records for this pay end date before adding the new records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>etl_engine</strong> (<a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><em>ETLEngine</em></a>) – The ETLEngine instance used for ETL operations.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.update_pay_end_dates_in_range">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">update_pay_end_dates_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">etl_engine</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><span class="pre">ETLEngine</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_date</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#src.peoplesoft_etl.update_pay_end_dates_in_range" title="Link to this definition"></a></dt>
+<dd><p>For endpoints that have ‘payenddate’ as a query parameter and ‘PAY_END_DT’ as the corresponding:
+- Updates records for pay end dates within a specified date range.
+- Deletes existing records for these pay end dates before adding the new records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>etl_engine</strong> (<a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine" title="src.etl_engine.ETLEngine"><em>ETLEngine</em></a>) – The ETLEngine instance used for ETL operations.</p></li>
+<li><p><strong>min_date</strong> (<em>str</em>) – The minimum date for the range (format: ‘YYYY-MM-DD’).</p></li>
+<li><p><strong>max_date</strong> (<em>str</em>) – The maximum date for the range (format: ‘YYYY-MM-DD’).</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.peoplesoft_etl.upsert_table_build_status">
+<span class="sig-prename descclassname"><span class="pre">src.peoplesoft_etl.</span></span><span class="sig-name descname"><span class="pre">upsert_table_build_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><span class="pre">OracleDB</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_owner</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">build_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">records_at_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields_at_endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows_in_oracle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols_in_oracle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows_minus_recs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">duplicates_in_oracle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_rerun_of_failed_requests</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">datetime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.peoplesoft_etl.upsert_table_build_status" title="Link to this definition"></a></dt>
+<dd><p>Upserts records into the ETL table build status in Oracle.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>db</strong> (<a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB" title="src.oracle_db.OracleDB"><em>OracleDB</em></a>) – The OracleDB instance used for database operations.</p></li>
+<li><p><strong>build_status</strong> (<em>str</em>) – The current status of the build.</p></li>
+<li><p><strong>table_name</strong> (<em>str</em>) – The name of the table being built.</p></li>
+<li><p><strong>table_owner</strong> (<em>str</em>) – The owner of the table.</p></li>
+<li><p><strong>build_time</strong> (<em>datetime</em>) – The total time taken for the build.</p></li>
+<li><p><strong>build_start</strong> (<em>datetime</em>) – The start time of the build.</p></li>
+<li><p><strong>build_end</strong> (<em>datetime</em>) – The end time of the build.</p></li>
+<li><p><strong>records_at_endpoint</strong> (<em>int</em>) – The number of records available at the endpoint.</p></li>
+<li><p><strong>fields_at_endpoint</strong> (<em>int</em>) – The number of fields at the endpoint.</p></li>
+<li><p><strong>rows_in_oracle</strong> (<em>int</em>) – The number of rows in the Oracle table.</p></li>
+<li><p><strong>cols_in_oracle</strong> (<em>int</em>) – The number of columns in the Oracle table.</p></li>
+<li><p><strong>rows_minus_recs</strong> (<em>int</em>) – The difference between rows in Oracle and records processed.</p></li>
+<li><p><strong>duplicates_in_oracle</strong> (<em>int</em>) – The count of duplicate records in Oracle.</p></li>
+<li><p><strong>last_rerun_of_failed_requests</strong> (<em>datetime</em>) – The last time failed requests were rerun.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.etl_engine.html" class="btn btn-neutral float-left" title="src.etl_engine module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.async_peoplesoft_api.html" class="btn btn-neutral float-right" title="src.async_peoplesoft_api module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, James Scott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

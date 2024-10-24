@@ -1,0 +1,1 @@
+If the location of an etl job script that is scheduled to run in Task Scheduler changes, then the file path needs to be updated in Task Scheduler.

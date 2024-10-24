@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeopleSoft ETL Pipeline Documentation &mdash; PeopleSoft ETL Pipeline 0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8dde47fa"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src.etl_engine module" href="src.etl_engine.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            PeopleSoft ETL Pipeline
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="src.etl_engine.html">src.etl_engine module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_etl.html">src.peoplesoft_etl module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_peoplesoft_api.html">src.async_peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_api.html">src.peoplesoft_api module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_worker.html">src.async_worker module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.oracle_db.html">src.oracle_db module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="src.windows_registry.html">src.windows_registry module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">PeopleSoft ETL Pipeline</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">PeopleSoft ETL Pipeline Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="peoplesoft-etl-pipeline-documentation">
+<h1>PeopleSoft ETL Pipeline Documentation<a class="headerlink" href="#peoplesoft-etl-pipeline-documentation" title="Link to this heading"></a></h1>
+<p>The PeopleSoft ETL pipelines moves data from the MHRGRP API into the SDPR Oracle database using the functions documented here.</p>
+<section id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src.etl_engine.html">src.etl_engine module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.AsyncETLException"><code class="docutils literal notranslate"><span class="pre">AsyncETLException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine"><code class="docutils literal notranslate"><span class="pre">ETLEngine</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.add_records_to_table"><code class="docutils literal notranslate"><span class="pre">ETLEngine.add_records_to_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.etl_task"><code class="docutils literal notranslate"><span class="pre">ETLEngine.etl_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.extract"><code class="docutils literal notranslate"><span class="pre">ETLEngine.extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.get_all_failed_request_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.get_all_failed_request_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.insert_records_using_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.insert_records_using_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.load"><code class="docutils literal notranslate"><span class="pre">ETLEngine.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.rebuild_table_using_pagination"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rebuild_table_using_pagination()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.rebuild_table_using_params"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rebuild_table_using_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.rerun_etl_for_failed_requests"><code class="docutils literal notranslate"><span class="pre">ETLEngine.rerun_etl_for_failed_requests()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ETLEngine.transform"><code class="docutils literal notranslate"><span class="pre">ETLEngine.transform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.ExtractException"><code class="docutils literal notranslate"><span class="pre">ExtractException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.LoadException"><code class="docutils literal notranslate"><span class="pre">LoadException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.etl_engine.html#src.etl_engine.TransformException"><code class="docutils literal notranslate"><span class="pre">TransformException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_etl.html">src.peoplesoft_etl module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.build_tables"><code class="docutils literal notranslate"><span class="pre">build_tables()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.get_last_rerun_of_failed_requests"><code class="docutils literal notranslate"><span class="pre">get_last_rerun_of_failed_requests()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.manually_add_records_to_table"><code class="docutils literal notranslate"><span class="pre">manually_add_records_to_table()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.peoplesoft_etl_engine"><code class="docutils literal notranslate"><span class="pre">peoplesoft_etl_engine()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.rebuild_ps_pay_oth_earns_by_date"><code class="docutils literal notranslate"><span class="pre">rebuild_ps_pay_oth_earns_by_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.run_etl_worker"><code class="docutils literal notranslate"><span class="pre">run_etl_worker()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.set_n_records_per_task"><code class="docutils literal notranslate"><span class="pre">set_n_records_per_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.update_last_n_pay_end_dates"><code class="docutils literal notranslate"><span class="pre">update_last_n_pay_end_dates()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.update_max_pay_end_dt_in_ps_pay_oth_earns_by_date"><code class="docutils literal notranslate"><span class="pre">update_max_pay_end_dt_in_ps_pay_oth_earns_by_date()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.update_pay_end_dates_in_range"><code class="docutils literal notranslate"><span class="pre">update_pay_end_dates_in_range()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_etl.html#src.peoplesoft_etl.upsert_table_build_status"><code class="docutils literal notranslate"><span class="pre">upsert_table_build_status()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_peoplesoft_api.html">src.async_peoplesoft_api module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.base_url"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.base_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.oracledb"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.oracledb</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.generate_auth_token"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.generate_auth_token()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_fields"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_items"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_items_concurrently"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_items_concurrently()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_items_tasks"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_items_tasks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_json"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_offsets"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_offsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_peoplesoft_api.html#src.async_peoplesoft_api.AsyncPeopleSoftAPI.get_record_count"><code class="docutils literal notranslate"><span class="pre">AsyncPeopleSoftAPI.get_record_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.peoplesoft_api.html">src.peoplesoft_api module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.base_url"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.base_url</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.get"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.get_catalog"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.get_catalog()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.get_items"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.get_items()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.get_json"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.get_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.peoplesoft_api.html#src.peoplesoft_api.PeopleSoftAPI.get_record_count"><code class="docutils literal notranslate"><span class="pre">PeopleSoftAPI.get_record_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.utils.html">src.utils module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.apply_data_type_transformations"><code class="docutils literal notranslate"><span class="pre">apply_data_type_transformations()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.bind_vars"><code class="docutils literal notranslate"><span class="pre">bind_vars()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.chunks"><code class="docutils literal notranslate"><span class="pre">chunks()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.data_model_consistencies"><code class="docutils literal notranslate"><span class="pre">data_model_consistencies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.data_model_discrepancies"><code class="docutils literal notranslate"><span class="pre">data_model_discrepancies()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.data_model_mapping"><code class="docutils literal notranslate"><span class="pre">data_model_mapping()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.equate_col_names"><code class="docutils literal notranslate"><span class="pre">equate_col_names()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.flatten"><code class="docutils literal notranslate"><span class="pre">flatten()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.insert_cols_str"><code class="docutils literal notranslate"><span class="pre">insert_cols_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.is_nan"><code class="docutils literal notranslate"><span class="pre">is_nan()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.merge_two_dicts"><code class="docutils literal notranslate"><span class="pre">merge_two_dicts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.null_to_empty_str"><code class="docutils literal notranslate"><span class="pre">null_to_empty_str()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.source_data_model"><code class="docutils literal notranslate"><span class="pre">source_data_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.split_int"><code class="docutils literal notranslate"><span class="pre">split_int()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.split_page_size_params"><code class="docutils literal notranslate"><span class="pre">split_page_size_params()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.str_to_datetime"><code class="docutils literal notranslate"><span class="pre">str_to_datetime()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.str_to_float"><code class="docutils literal notranslate"><span class="pre">str_to_float()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.str_to_int"><code class="docutils literal notranslate"><span class="pre">str_to_int()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.target_data_model"><code class="docutils literal notranslate"><span class="pre">target_data_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.timedelta_to_nearest_sec"><code class="docutils literal notranslate"><span class="pre">timedelta_to_nearest_sec()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.utils.html#src.utils.transform_data_type"><code class="docutils literal notranslate"><span class="pre">transform_data_type()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.async_worker.html">src.async_worker module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.async_worker.html#src.async_worker.AsyncWorker"><code class="docutils literal notranslate"><span class="pre">AsyncWorker</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.async_worker.html#src.async_worker.AsyncWorker.add_task"><code class="docutils literal notranslate"><span class="pre">AsyncWorker.add_task()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.async_worker.html#src.async_worker.AsyncWorker.running_task_count"><code class="docutils literal notranslate"><span class="pre">AsyncWorker.running_task_count</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.oracle_db.html">src.oracle_db module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.DatabaseException"><code class="docutils literal notranslate"><span class="pre">DatabaseException</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB"><code class="docutils literal notranslate"><span class="pre">OracleDB</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.conn_str_key_endpoint"><code class="docutils literal notranslate"><span class="pre">OracleDB.conn_str_key_endpoint</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.credentials"><code class="docutils literal notranslate"><span class="pre">OracleDB.credentials</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.close_connection"><code class="docutils literal notranslate"><span class="pre">OracleDB.close_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.close_cursor"><code class="docutils literal notranslate"><span class="pre">OracleDB.close_cursor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.commit"><code class="docutils literal notranslate"><span class="pre">OracleDB.commit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.commit_and_close"><code class="docutils literal notranslate"><span class="pre">OracleDB.commit_and_close()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.count_dups_in_oracle"><code class="docutils literal notranslate"><span class="pre">OracleDB.count_dups_in_oracle()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.default_load"><code class="docutils literal notranslate"><span class="pre">OracleDB.default_load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.delete"><code class="docutils literal notranslate"><span class="pre">OracleDB.delete()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.execute"><code class="docutils literal notranslate"><span class="pre">OracleDB.execute()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.execute_many"><code class="docutils literal notranslate"><span class="pre">OracleDB.execute_many()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.get_col_count"><code class="docutils literal notranslate"><span class="pre">OracleDB.get_col_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.get_row_count"><code class="docutils literal notranslate"><span class="pre">OracleDB.get_row_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.insert"><code class="docutils literal notranslate"><span class="pre">OracleDB.insert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.open_cursor"><code class="docutils literal notranslate"><span class="pre">OracleDB.open_cursor()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.query_to_df"><code class="docutils literal notranslate"><span class="pre">OracleDB.query_to_df()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.truncate"><code class="docutils literal notranslate"><span class="pre">OracleDB.truncate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.update"><code class="docutils literal notranslate"><span class="pre">OracleDB.update()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.OracleDB.upsert"><code class="docutils literal notranslate"><span class="pre">OracleDB.upsert()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.oracle_db.html#src.oracle_db.UnknownEnvironmentException"><code class="docutils literal notranslate"><span class="pre">UnknownEnvironmentException</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.windows_registry.html">src.windows_registry module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.windows_registry.html#src.windows_registry.WindowsRegistry"><code class="docutils literal notranslate"><span class="pre">WindowsRegistry</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.windows_registry.html#src.windows_registry.WindowsRegistry.get_oracle_conn_dict"><code class="docutils literal notranslate"><span class="pre">WindowsRegistry.get_oracle_conn_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.windows_registry.html#src.windows_registry.WindowsRegistry.get_oracle_conn_str"><code class="docutils literal notranslate"><span class="pre">WindowsRegistry.get_oracle_conn_str()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.windows_registry.html#src.windows_registry.WindowsRegistry.get_oracle_conn_str_paths"><code class="docutils literal notranslate"><span class="pre">WindowsRegistry.get_oracle_conn_str_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.windows_registry.html#src.windows_registry.WindowsRegistry.parse_oracle_conn_str"><code class="docutils literal notranslate"><span class="pre">WindowsRegistry.parse_oracle_conn_str()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.etl_engine.html" class="btn btn-neutral float-right" title="src.etl_engine module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, James Scott.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
