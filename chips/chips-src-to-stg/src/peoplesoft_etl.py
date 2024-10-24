@@ -372,7 +372,7 @@ async def run_etl_worker(
     )
 
     if endpoint[-8:] == '_by_date':
-        await update_last_n_pay_end_dates(etl_engine=etl_engine, last_n_pay_end_dates=2)
+        await update_last_n_pay_end_dates(etl_engine=etl_engine, last_n_pay_end_dates=3)
         # await update_pay_end_dates_in_range(
         #     etl_engine=etl_engine, min_date='2004-05-29', max_date='2011-12-17'
         # )
