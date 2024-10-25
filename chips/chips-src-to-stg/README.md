@@ -7,15 +7,18 @@
 - Rename `template.env` to `.env` and set the environment variable values
 
 Setup your virtual environment to install an independent set of python packages in the project directory in the .venv folder:
-1. create a venv in the root directory: `python -m venv .venv`
-2. activate the venv in powershell terminal: `.venv\Scripts\Activate.ps1`
+1. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
+2. create a venv in the root directory: `python -m venv .venv`
+3. activate the venv in powershell terminal: `.venv\Scripts\Activate.ps1`
 
 Install packages in your virtual environment:
 * Offline (if on the servers):
   1. open a Windows Command Prompt
-  2. activate the venv: `.venv\Scripts\activate.bat`
-  3. go into the folder: `cd venv_downloads`
-  4. install all packages: `for %x in (dir *.whl) do python -m pip install %x`
+  2. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
+  3. activate the venv: `.venv\Scripts\activate.bat`
+  4. go into the folder: `cd venv_downloads`
+  5. install all packages: `for %x in (dir *.whl) do python -m pip install %x`
+  6. might have to run step (5.) a few times because it installs packages in order and can't install dependent packages online.
 * Online (if on your own machine): `pip install -r requirements.txt`
 
 ## Managing Libraries
@@ -37,13 +40,13 @@ Now, you can merge these changes made on your local machine into the main branch
 Ruff is used for formatting. You can run `format ruff` in powershell from the root directory to format all code. You can configure formatting rules in the `ruff.toml` and `pyproject.toml` files. See the ruff documentation online for details.
 
 ## Source Control
-Use Git + Azure DevOps for source control:
+Use Git + GitHub for source control:
 1. create a development branch off the main branch: `git checkout -b your-branch-name`
 2. publish the branch to the remote: `git push -u origin your-branch-name`
 3. stage all changes: `git add .`
 4. commit staged changes: `git commit -m "your commit message"`
 5. push changes: `git push`
-6. go to the associated Azure DevOps repo and create a pull request. Assign reviewers for code 
+6. go to the associated GitHub repo and create a pull request. Assign reviewers for code 
 reviews.
 
 To pull changes from the remote, run `git pull`
