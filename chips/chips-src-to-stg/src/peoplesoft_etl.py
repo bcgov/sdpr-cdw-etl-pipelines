@@ -238,7 +238,7 @@ async def update_last_n_pay_end_dates(etl_engine: ETLEngine, last_n_pay_end_date
         on_str=f'{etl_engine.oracle_table_owner}.{etl_engine.oracle_table_name}', 
         to_str='ETL'
     )
-    chips_stg_db.close_connection()
+    chips_stg_db.close_cursor()
 
     for pay_end_date in last_n_dates:
         etl_engine.oracledb.delete(
