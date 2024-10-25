@@ -104,6 +104,7 @@ class OracleDB:
         """
         try:
             logger.debug(f'executing: {statement}')
+            logger.debug(f'with parameters: {parameters}')
             self.cursor.execute(statement, parameters)
         except oracledb.Error as e:
             raise DatabaseException(e)
