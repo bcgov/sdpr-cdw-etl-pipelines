@@ -27,7 +27,7 @@ with open('config.yml', 'r') as f:
     form_version_id = config['form-version-id']
 
 # initialize objects for ETL
-oracle_db = OracleDB()
+oracle_db = OracleDB(conn_str_key_endpoint='CW1D_ETL')
 chefs_api = ChefsApi(
     api_key_secret=api_key_secret, 
     form_id=form_id, 

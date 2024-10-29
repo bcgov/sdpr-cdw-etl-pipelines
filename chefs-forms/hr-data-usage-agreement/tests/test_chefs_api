@@ -1,7 +1,7 @@
 import sys
 parent_dir = ".."
 sys.path.append(parent_dir)
-sys.path.append(r"C:\GitHub\hr-data-usage-agreement-etl") # this is developer-specific
+sys.path.append(r"E:\ETL_V8\sdpr-cdw-data-pipelines\chefs-forms\hr-data-usage-agreement") # this is developer-specific
 from src.chefs_api import ChefsApi
 import unittest
 import yaml
@@ -33,6 +33,13 @@ class TestChefsApi(unittest.TestCase):
         a_submission_id = submissions[0]['id']
         a_status = chefs_api.get_current_status(a_submission_id)
         self.assertTrue(a_status in ['SUBMITTED', 'ASSIGNED', 'COMPLETED'])
+
+    def test_get_published_version(self):
+        published_version = chefs_api.get_json(chefs_api.published_version)
+        actual_id = published_version['id']
+        # print(actual_id)
+        expected_id = form_id
+        self.assertEqual(expected_id, actual_id)
 
 if __name__ == '__main__':
     unittest.main()

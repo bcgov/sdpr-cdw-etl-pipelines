@@ -1,27 +1,11 @@
 import oracledb
-from pykeepass import PyKeePass
-from getpass import getpass
+from src.windows_registry import WindowsRegistry
 import src.utils as utils
 import pandas as pd
 import logging
 
 logger = logging.getLogger('__main__.' + __name__)
 
-
-# CW1D ETL
-cw1d_etl_connection_name='cw1d_etl'
-cw1d_etl_group_name='SDPR CDW (CW1D)'
-cw1d_etl_entry_title='ETL'
-
-# CW1T2 ETL
-cw1t2_etl_connection_name='cw1t2_etl'
-cw1t2_etl_group_name='SDPR CDW (CW1T2)'
-cw1t2_etl_entry_title='ETL'
-
-# CW1P ETL
-cw1p_etl_connection_name='cw1p_etl'
-cw1p_etl_group_name='SDPR CDW (CW1P)'
-cw1p_etl_entry_title='ETL'
 
 class OracleDB:
     """
@@ -35,31 +19,34 @@ class OracleDB:
         credentials (dict[str, str], optional): A dictionary containing additional credentials.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, conn_str_key_endpoint: str) -> None:
         """
         Initializes the OracleDB instance.
 
         Args:
             conn_str_key_endpoint (str): The endpoint for retrieving the Oracle connection string from the registry.
-            credentials (dict[str, str], optional): A dictionary containing additional credentials.
         
         Raises:
             DatabaseException: If a connection to the database cannot be established.
         """
-        def connection(group_name: str=cw1d_etl_group_name, entry_title: str=cw1d_etl_entry_title):
-            '''Create DB connection'''
-            kdbx_path = r'S:\Info Tech\Operations - Applications (6820)\Local appl (by name) (6820-30)\Corporate Data Warehouse\Cognos 11 and Data Stage\Data Stage\Credentials.kdbx'
-            keepass = PyKeePass(kdbx_path, password=getpass("Enter KeePass password: "))
-            group = keepass.find_groups(name=group_name, first=True)
-            entry = keepass.find_entries(title=entry_title, group=group, first=True)
-            dsn = f'{entry.username}/{entry.password}@{entry.url}'
-            return oracledb.connect(dsn)
-
-        try:
-            self.conn = connection()
-            logger.info("connected to: " + cw1d_etl_group_name)
+        def connect_w_win_reg():
+            reg = WindowsRegistry()
+            db_credentials = reg.get_oracle_conn_dict(conn_str_key_endpoint)
+            user = db_credentials["user"]
+            pwd = db_credentials["pwd"]
+            service_name = db_credentials["service_name"]
+            self.conn = oracledb.connect(
+                user=user,
+                password=pwd,
+                dsn=f'{service_name}.world',
+                config_dir="E:/Oracle/product/18.0.0/64bit/network/admin",
+            )
+            logger.info("connected to: " + service_name + "." + user)
             self.cursor = self.conn.cursor()
             logger.info("cursor opened")
+
+        try:
+            connect_w_win_reg()
         except oracledb.DatabaseError as e:
             raise DatabaseException()
 
@@ -116,7 +103,7 @@ class OracleDB:
             Exception: For any unhandled exceptions.
         """
         try:
-            logger.debug(f'executing: {statement}')
+            logger.debug(f'executing "{statement}" with {parameters}')
             self.cursor.execute(statement, parameters)
         except oracledb.Error as e:
             raise DatabaseException(e)
@@ -196,6 +183,20 @@ class OracleDB:
             statement=f"INSERT INTO {table_owner}.{table_name} {insert_cols} VALUES {utils.bind_vars(number_of_cols)}",
             parameters=writeRows,
         )
+        self.commit()
+
+    def grant(self, grant_type: str, on_str: str, to_str: str, parameters=None) -> None:
+        """
+        Grants privileges of the form: grant {grant_type} on {on_str} to {to_str}
+
+        Args:
+            grant_type (str): The grant type.
+            on_str (str): The object on which the privileges are being granted.
+            to_str (str): The user to which the privileges are granted.
+            parameters: The parameters to bind to the statement.
+        """
+        statement = f"grant {grant_type} on {on_str} to {to_str}"
+        self.execute(statement=statement, parameters=parameters)
         self.commit()
 
     def delete(self, table_owner: str, table_name: str, where_str: str, parameters) -> None:

@@ -20,6 +20,7 @@ class ChefsApi:
         # endpoints
         self.forms_endpoint = f'/forms'
         self.form_endpoint = f'/forms/{self.form_id}'
+        self.published_version = f'/forms/{self.form_id}/version'
         self.options_endpoint = f'/forms/{self.form_id}/options'
         self.export_endpoint = f'/forms/{self.form_id}/export'
         self.status_codes_endpoint = f'/forms/{self.form_id}/statusCodes'
