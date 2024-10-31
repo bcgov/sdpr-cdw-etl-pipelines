@@ -34,12 +34,17 @@ class TestChefsApi(unittest.TestCase):
         a_status = chefs_api.get_current_status(a_submission_id)
         self.assertTrue(a_status in ['SUBMITTED', 'ASSIGNED', 'COMPLETED'])
 
-    def test_get_published_version(self):
-        published_version = chefs_api.get_json(chefs_api.published_version)
+    def test_get_published_version_endpoint(self):
+        published_version = chefs_api.get_json(chefs_api.published_version_endpoint)
         actual_id = published_version['id']
         # print(actual_id)
         expected_id = form_id
         self.assertEqual(expected_id, actual_id)
+
+    def test_get_fields_endpoint(self):
+        fields = chefs_api.get_json(chefs_api.fields_endpoint)
+        print(fields)
+        # self.assertEqual(expected_id, actual_id)
 
 if __name__ == '__main__':
     unittest.main()
