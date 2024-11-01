@@ -6,19 +6,14 @@
 - Rename `SDPR_keypair_template.pem` to `SDPR_keypair.pem` and add the pem key
 - Rename `template.env` to `.env` and set the environment variable values
 
-Setup your virtual environment to install an independent set of python packages in the project directory in the .venv folder:
+Setup your virtual environment to install an independent set of python packages in the project directory in a .venv folder:
 1. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
 2. create a venv in the root directory: `python -m venv .venv`
 3. activate the venv in powershell terminal: `.venv\Scripts\Activate.ps1`
 
 Install packages in your virtual environment:
 * Offline (if on the servers):
-  1. open a Windows Command Prompt
-  2. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
-  3. activate the venv: `.venv\Scripts\activate.bat`
-  4. go into the folder: `cd venv_downloads`
-  5. install all packages: `for %x in (dir *.whl) do python -m pip install %x`
-  6. might have to run step (5.) a few times because it installs packages in order and can't install dependent packages online.
+  install all packages in requirements.txt using the whl files in the wheels folder: `pip install --no-index --find-links=wheels/ -r requirements.txt`
 * Online (if on your own machine): `pip install -r requirements.txt`
 
 ## Managing Libraries
@@ -26,13 +21,9 @@ Generate a requirements.txt file containing all libraries installed in the venv 
 
 Since our ETL servers require offline installs, I created a folder called `venv_downloads` to house all of the `.whl` files, which can be installed by following the instructions on offline package installs above.
 
-To refresh the venv_downloads folder based on the current `requirements.txt` file, you need to be on a machine that let's you access the internet so you can run pip installations. From such a machine:
-1. create a new folder
-2. `cd [new folder]`
-3. `pip download -r ../requirements.txt`
-4. delete all .whl files in venv_downloads
-5. paste all the .whl files downloaded in the new folder in venv_downloads
-6. delete the new folder
+To refresh the venv_downloads folder based on the current `requirements.txt` file, you need to be on a machine that let's you access the internet so you can use `pip download ...`. From such a machine:
+1. delete existing whl files in the wheels folder
+2. download the whl files for all packages in requirements.txt into the wheels folder: `pip download -r ../requirements.txt -d wheels`
 
 Now, you can merge these changes made on your local machine into the main branch, pull the changes on the servers, and do an offline install on the servers.
 
