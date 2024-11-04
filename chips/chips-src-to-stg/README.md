@@ -13,7 +13,7 @@ Setup your virtual environment to install an independent set of python packages 
 
 Install packages in your virtual environment:
 * Offline (if on the servers):
-  install all packages in requirements.txt using the whl files in the wheels folder: `pip install --no-index --find-links=wheels/ -r requirements.txt`
+  install all packages in requirements.txt using the whl files in the wheels folder: `python -m pip install --no-index --find-links=wheels/ -r requirements.txt`
 * Online (if on your own machine): `pip install -r requirements.txt`
 
 ## Managing Libraries
