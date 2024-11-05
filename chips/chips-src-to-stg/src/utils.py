@@ -181,34 +181,6 @@ def apply_data_type_transformations(
     return df
 
 
-def bind_vars(number_of_cols: int) -> str:
-    """
-    Generate a string of bind variables for a SQL insert statement.
-
-    This function creates a string of bind variables formatted for use 
-    in a dynamically generated SQL `executemany` insert statement. 
-    The bind variables are indexed starting from 1.
-
-    Args:
-        number_of_cols (int): The number of columns for which to generate 
-                              bind variables.
-
-    Returns:
-        str: A string containing the bind variables in the format 
-             "( :1, :2, ..., :n )", where n is the number of columns.
-
-    Notes:
-        - The resulting string can be used in SQL statements for 
-          parameterized queries to prevent SQL injection.
-    """
-    bind_vars = "("
-    for i in range(1, number_of_cols + 1):
-        bind_vars += f":{i}, "
-        if i == number_of_cols:
-            bind_vars = bind_vars[:-2] + ")"
-    return bind_vars
-
-
 def source_data_model(source_data: pd.DataFrame) -> pd.DataFrame:
     """
     Create a data model DataFrame from the source data.
