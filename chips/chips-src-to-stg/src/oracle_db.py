@@ -102,13 +102,13 @@ class OracleDB:
             DatabaseException: If an error occurs during execution.
             Exception: For any unhandled exceptions.
         """
-        try:
-            logger.debug(f'executing "{statement}" with {parameters}')
-            self.cursor.execute(statement, parameters)
-        except oracledb.Error as e:
-            raise DatabaseException(e)
-        except Exception as e:
-            raise Exception(f"unhandled exception: {e}")
+        # try:
+        logger.debug(f'executing "{statement}" with {parameters}')
+        self.cursor.execute(statement, parameters)
+        # except oracledb.Error as e:
+        #     raise DatabaseException(e)
+        # except Exception as e:
+        #     raise Exception(f"unhandled exception: {e}")
 
     def execute_many(self, statement: str, parameters) -> None:
         """
@@ -210,6 +210,23 @@ class OracleDB:
             parameters: The parameters to bind to the condition.
         """
         statement = f"delete from {table_owner}.{table_name} where {where_str}"
+        self.execute(statement=statement, parameters=parameters)
+        self.commit()
+
+    def add_primary_key(
+        self, table_owner: str, table_name: str, pk_name: str, pk_cols: str, parameters=None
+    ) -> None:
+        """
+        Adds a primary key constraint to a table.
+
+        Args:
+            table_owner (str): The owner of the table.
+            table_name (str): The name of the table.
+            pk_name (str): The name of the primary key constraint.
+            pk_cols (str): The columns for the primary key.
+            parameters: The parameters to bind to the statement.
+        """
+        statement = f"alter table {table_owner}.{table_name} add constraint {pk_name} primary key ({pk_cols})"
         self.execute(statement=statement, parameters=parameters)
         self.commit()
 
