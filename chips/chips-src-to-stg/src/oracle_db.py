@@ -122,12 +122,13 @@ class OracleDB:
             DatabaseException: If an error occurs during execution.
             Exception: For any unhandled exceptions.
         """
-        try:
-            self.cursor.executemany(statement, parameters)
-        except oracledb.Error as e:
-            raise DatabaseException(e)
-        except Exception as e:
-            raise Exception(f"unhandled exception: {e}")
+        # try:
+        logger.debug(f'executing many "{statement}"')
+        self.cursor.executemany(statement, parameters)
+        # except oracledb.Error as e:
+        #     raise DatabaseException(e)
+        # except Exception as e:
+        #     raise Exception(f"unhandled exception: {e}")
 
     def query_to_df(self, query_string: str, parameters=None) -> pd.DataFrame:
         """
