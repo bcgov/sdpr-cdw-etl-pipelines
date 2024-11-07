@@ -162,8 +162,7 @@ class OracleDB:
         self,
         table_owner: str,
         table_name: str,
-        insert_cols: str,
-        number_of_cols: int,
+        cols_to_load_list: list[str],
         writeRows: list[tuple],
         truncate_first: bool = True,
     ) -> None:
@@ -173,18 +172,23 @@ class OracleDB:
         Args:
             table_owner (str): The owner of the table.
             table_name (str): The name of the table.
-            insert_cols (str): The columns to insert into.
-            number_of_cols (int): The number of columns in the insert statement.
+            cols_to_load_list (str): a list of column names that align with the data to be loaded.
             writeRows (list[tuple]): The rows of data to insert.
             truncate_first (bool): Whether to truncate the table before loading data.
         """
         if truncate_first:
             self.truncate(table_owner, table_name)
-        self.execute_many(
-            statement=f"INSERT INTO {table_owner}.{table_name} {insert_cols} VALUES {utils.bind_vars(number_of_cols)}",
-            parameters=writeRows,
+
+        row_params = [
+            dict(zip(cols_to_load_list, list(row_vals_tuple))) for row_vals_tuple in writeRows
+        ]
+
+        self.insert_many(
+            table_owner=table_owner,
+            table_name=table_name,
+            cols_to_insert_list=cols_to_load_list,
+            parameters=row_params,
         )
-        self.commit()
 
     def grant(self, grant_type: str, on_str: str, to_str: str, parameters=None) -> None:
         """
@@ -260,43 +264,40 @@ class OracleDB:
         self,
         table_owner: str,
         table_name: str,
-        insert_tgt_cols_str: str,
+        cols_to_insert_list: list[str],
         parameters,
     ) -> None:
         self.execute_many(
             statement=f"""
-                INSERT INTO {table_owner}.{table_name} {insert_tgt_cols_str} 
-                VALUES {self._numeric_bind_vars_str(len(insert_tgt_cols_str.split()))}
+                INSERT INTO {table_owner}.{table_name} ({self._list_of_cols_to_cols_str(list_of_col_names=cols_to_insert_list)})
+                VALUES {self._bind_vars_str(cols_to_insert_list)}
             """,
             parameters=parameters,
         )
         self.commit()
 
-    def _numeric_bind_vars_str(self, number_of_cols: int) -> str:
+    def _bind_vars_str(self, list_of_cols: int) -> str:
         """
         Generate a string of numeric bind variables for an SQL insert/merge statement.
 
         This function creates a string of bind variables formatted for use 
         in a dynamically generated SQL `execute_many` insert statement. 
-        The bind variables are indexed starting from 1.
 
         Args:
-            number_of_cols (int): The number of columns for which to generate 
-                                bind variables.
+            list_of_cols (list[str]): The columns for which to generate bind variables.
 
         Returns:
             str: A string containing the bind variables in the format 
-                "( :1, :2, ..., :n )", where n is the number of columns.
+                "( :col1, :col2, ..., :coln )", where n is the number of columns.
 
         Notes:
             - The resulting string can be used in SQL statements for 
             parameterized queries to prevent SQL injection.
         """
         bind_vars = "("
-        for i in range(1, number_of_cols + 1):
-            bind_vars += f":{i}, "
-            if i == number_of_cols:
-                bind_vars = bind_vars[:-2] + ")"
+        for col in list_of_cols:
+            bind_vars += f":{col}, "
+        bind_vars = bind_vars[:-2] + ")"
         return bind_vars
     
     def upsert(
@@ -330,6 +331,73 @@ class OracleDB:
         """
         self.execute(statement=statement, parameters=parameters)
         self.commit()
+
+    def merge_new_records(
+        self,
+        table_owner: str,
+        table_name: str,
+        cols_to_merge_on_list: list[str],
+        cols_to_merge_list: list[str],
+        parameters,
+    ) -> None:
+        """
+        Inserts new records in a table using a merge statement.
+
+        Args:
+            table_owner (str): The owner of the table.
+            table_name (str): The name of the table.
+            cols_to_merge_on_list (list[str]): The columns to merge on.
+            cols_to_merge_list (str): The columns to be merged.
+            parameters: The parameters to bind to the merge statement.
+        """
+        statement=f"""
+            merge into {table_owner}.{table_name} tgt 
+            using dual
+            on ({self._merge_on_str(list_of_col_names=cols_to_merge_on_list)})
+            when not matched then insert ({self._list_of_cols_to_tgt_cols_str(cols_to_merge_list)}) 
+                values {self._bind_vars_str(cols_to_merge_list)}
+        """
+        print(statement)
+        self.execute_many(statement=statement, parameters=parameters)
+        self.commit()
+
+    def _list_of_cols_to_tgt_cols_str(self, list_of_col_names: list[str]) -> str:
+        """
+        converts a list of column names into a string of the form:
+
+        "tgt.col1, ..., tgt.coln"
+
+        Args:
+            list_of_col_names (list[str]): a list of column names
+        """
+        tgt_cols_list = ["tgt." + col for col in list_of_col_names]
+        tgt_cols_str = ", ".join(tgt_cols_list)
+        return tgt_cols_str
+
+    def _list_of_cols_to_cols_str(self, list_of_col_names: list[str]) -> str:
+        """
+        converts a list of column names into a string of the form:
+
+        "col1, ..., coln"
+
+        Args:
+            list_of_col_names (list[str]): a list of column names
+        """
+        tgt_cols_str = ", ".join(list_of_col_names)
+        return tgt_cols_str
+
+    def _merge_on_str(self, list_of_col_names: list[str]) -> str:
+        """
+        Generate the string that follows 'on' in a merge statement by equating a list of column names
+        with corresponding numeric bind variables.
+
+        Args:
+            list_of_col_names (list[str]): a list of column names to be merged on.
+        """
+        on_str = ""
+        for col in list_of_col_names:
+            on_str += f" and {col} = :{col}"
+        return on_str[5:]
 
     def update(self, table_owner, table_name, set_str, where_str, parameters) -> None:
         """

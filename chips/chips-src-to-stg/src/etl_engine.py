@@ -3,6 +3,8 @@ from src.oracle_db import OracleDB
 from src.peoplesoft_api import PeopleSoftAPI
 from src.async_peoplesoft_api import AsyncPeopleSoftAPI
 from src.async_worker import AsyncWorker
+from src.primary_keys import PrimaryKeys
+import oracledb
 import warnings
 import pandas as pd
 import numpy as np
@@ -143,17 +145,75 @@ class ETLEngine:
         Raises:
             LoadException: If an error occurs during loading.
         """
+        table_owner=self.oracle_table_owner
+        table_name=self.oracle_table_name
+        cols_to_load_list=transformed_data.columns
+        writeRows=list(transformed_data.itertuples(index=False, name=None))
+        
+        if truncate_first:
+            self.oracledb.truncate(table_owner, table_name)
+
+        row_params = [
+            dict(zip(cols_to_load_list, list(row_vals_tuple))) for row_vals_tuple in writeRows
+        ]
+
         try:
-            self.oracledb.default_load(
-                table_owner=self.oracle_table_owner,
-                table_name=self.oracle_table_name,
-                insert_cols=utils.insert_cols_str(transformed_data.columns),
-                number_of_cols=len(transformed_data.columns.tolist()),
-                writeRows=list(transformed_data.itertuples(index=False, name=None)),
-                truncate_first=truncate_first,
+            self.oracledb.insert_many(
+                table_owner=table_owner,
+                table_name=table_name,
+                cols_to_insert_list=cols_to_load_list,
+                parameters=row_params,
             )
-        except Exception as e:
-            raise LoadException(e)
+
+        except oracledb.DatabaseError as e:
+            error, = e.args
+            logger.info(f'Encountered Oracle error code: {error.code}')
+
+            if error.code == 1:
+                logger.info('''
+                    Encountered ORA-00001: unique constraint violated.
+                    Attempting to merge the records on the primary key instead of inserting them.
+                ''')
+                self.merge_new_records_on_primary_key_or_all_cols(
+                    table_owner=table_owner,
+                    table_name=table_name,
+                    cols_to_merge_list=cols_to_load_list,
+                    parameters=row_params,
+                )   
+            else:
+                raise e
+
+
+    def merge_new_records_on_primary_key_or_all_cols(
+        self,
+        table_owner: str,
+        table_name: str,
+        cols_to_merge_list: list[str],
+        parameters,
+    ) -> None:
+        """
+        Merges new records on the primary key defined or all columns if the primary key is undefined.
+
+        Args:
+            table_owner (str): The owner of the table.
+            table_name (str): The name of the table.
+            cols_to_merge_list (str): The columns to be merged.
+            parameters: The parameters to bind to the merge statement.
+        """
+        primary_key = PrimaryKeys()
+        pk = primary_key.get_primary_key(pk_name=f'{table_name}_PK')
+
+        if pk == []:
+            # No PK was found in the list of PK's. So, merged on all cols (i.e. distinct rows)
+            pk = cols_to_merge_list.copy()
+
+        self.oracledb.merge_new_records(
+            table_owner=table_owner, 
+            table_name=table_name, 
+            cols_to_merge_on_list=pk,
+            cols_to_merge_list=cols_to_merge_list,
+            parameters=parameters,
+        )
 
 
     def get_all_failed_request_params(self, db: OracleDB, endpoint: str, table: str) -> None:
