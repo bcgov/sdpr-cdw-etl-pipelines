@@ -24,7 +24,7 @@ with open(base_dir + '\\' + 'config.yml', 'r') as file:
     conf = yaml.safe_load(file)
 
 # extract data from excel file
-df = pd.read_excel('chips\chips-src-to-stg\keys\mhrgrp_api_primary_keys.xlsx')
+df = pd.read_excel('chips\chips-src-to-stg\oracle_ddl\create_primary_keys\mhrgrp_api_primary_keys.xlsx')
 pkeys_df = df[['SYNONYM', 'Primary Index']]
 
 # add primary keys to chips_stg tables
@@ -34,9 +34,6 @@ for index, row in pkeys_df.iterrows():
     endpoint_name = row['SYNONYM'].strip()
     pk_fields = row['Primary Index']
     if not pd.isnull(pk_fields):
-        # pk_fields = pk_fields_raw.split(",")
-        # pk_fields_formatted = ', '.join(["'{}'".format(value) for value in pk_fields])
-        # print(pk_fields_formatted)
         try:
             chips_stg_db.add_primary_key(
                 table_owner='CHIPS_STG',
@@ -48,7 +45,3 @@ for index, row in pkeys_df.iterrows():
             error, = e.args
             if error.code == 942:
                 print('Ignored ORA-00942: table or view does not exist')
-        
-        print()
-        # break
-
