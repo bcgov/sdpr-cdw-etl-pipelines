@@ -13,13 +13,15 @@ Setup your virtual environment to install an independent set of python packages 
 
 Install packages in your virtual environment:
 * Offline (if on the servers):
-  install all packages in requirements.txt using the whl files in the wheels folder: `python -m pip install --no-index --find-links=wheels/ -r requirements.txt`
+  1. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
+  2. activate the venv in powershell terminal: `.venv\Scripts\Activate.ps1`
+  3. install all packages in requirements.txt using the whl files in the wheels folder: `python -m pip install --no-index --find-links=wheels/ -r requirements.txt`
 * Online (if on your own machine): `pip install -r requirements.txt`
 
 ## Managing Libraries
 Generate a requirements.txt file containing all libraries installed in the venv by running: `pip3 freeze > requirements.txt` so you can install required packages in new venvs by running `pip install -r requirements.txt`. 
 
-Since our ETL servers require offline installs, I created a folder called `venv_downloads` to house all of the `.whl` files, which can be installed by following the instructions on offline package installs above.
+Since our ETL servers require offline installs, I created a folder called `wheels` to house all of the `.whl` files, which can be installed by following the instructions on offline package installs above.
 
 To refresh the venv_downloads folder based on the current `requirements.txt` file, you need to be on a machine that let's you access the internet so you can use `pip download ...`. From such a machine:
 1. delete existing whl files in the wheels folder
