@@ -20,7 +20,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 # get config values
-with open('config.yml', 'r') as f:
+with open('chefs-forms\hr-data-usage-agreement\config.yml', 'r') as f:
     config = yaml.load(f, Loader=yaml.SafeLoader)
     api_key_secret = config['api-secret']
     form_id = config['form-id']
