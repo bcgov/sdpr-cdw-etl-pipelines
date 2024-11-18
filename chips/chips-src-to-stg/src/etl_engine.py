@@ -13,7 +13,7 @@ import aiohttp
 import datetime as dt
 import ast
 import logging
-#
+
 logger = logging.getLogger('__main__.' + __name__)
 
 # Display entire DataFrame when printing
