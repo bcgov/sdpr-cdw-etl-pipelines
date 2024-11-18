@@ -84,7 +84,7 @@ class AsyncPeopleSoftAPI:
             "Connection": "keep-alive",
         }
 
-        proxy = "http://142.34.229.249:8080"
+        proxy = conf['proxy']
 
         statuses = {x for x in range(100, 600)}
         statuses.remove(200)

@@ -49,7 +49,7 @@ class PeopleSoftAPI:
         Raises:
             Exception: If an error occurs during the request.
         """
-        proxy = "http://142.34.229.249:8080"
+        proxy = conf['proxy']
         proxies = {"http": proxy, "https": proxy}
 
         def generate_auth_token():

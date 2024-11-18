@@ -11,3 +11,7 @@ etl_conn_str_subkey: "[Windows Registry subkey for the ETL user Oracle connectio
 # the Oracle connection string subkey in Windows Registry for the CHIPS_STG user
 # e.g. "CW1T_CHIPS_STG"
 chips_stg_conn_str_subkey: "[Windows Registry subkey for the CHIPS_STG user Oracle connection string]"
+
+# the proxy used to send requests to the API
+# e.g. "http://142.34.229.249:8080"
+proxy: "[proxy address]"
