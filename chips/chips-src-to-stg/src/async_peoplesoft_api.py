@@ -34,7 +34,7 @@ class AsyncPeopleSoftAPI:
     """
     
     def __init__(self, oracledb: OracleDB=None) -> None:
-        self.base_url = "https://rp-api.tssi.ca"
+        self.base_url = f"{conf['api_scheme']}{conf['api_host']}"
         self.oracledb = oracledb
 
     def generate_auth_token(self):
@@ -53,7 +53,7 @@ class AsyncPeopleSoftAPI:
         epoch_expiration_time = epoch_time_now + int(60 * 60 * 24)
         jwt_payload = {
             "iss": "https://identity.oraclecloud.com/",
-            "aud": "https://rp-api.tssi.ca/",
+            "aud": f"{conf['api_scheme']}{conf['api_host']}/",
             "iat": epoch_time_now,
             "exp": epoch_expiration_time,
         }
@@ -79,7 +79,7 @@ class AsyncPeopleSoftAPI:
         headers = {
             "Content-Type": "application/json",
             "Authorization": self.generate_auth_token(),
-            "Host": "rp-api.tssi.ca",
+            "Host": conf['api_host'],
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
         }

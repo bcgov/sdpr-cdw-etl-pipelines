@@ -33,7 +33,7 @@ class PeopleSoftAPI:
         """
         Initializes the PeopleSoftAPI instance with the base URL.
         """
-        self.base_url = "https://rp-api.tssi.ca/mhrgrp/"
+        self.base_url = f"{conf['api_scheme']}{conf['api_host']}{conf['api_base_path']}/"
 
     def get(self, url: str, params: dict = {}):
         """
@@ -67,7 +67,7 @@ class PeopleSoftAPI:
             epoch_expiration_time = epoch_time_now + int(60 * 60 * 6)
             jwt_payload = {
                 "iss": "https://identity.oraclecloud.com/",
-                "aud": "https://rp-api.tssi.ca/",
+                "aud": f"{conf['api_scheme']}{conf['api_host']}/",
                 "iat": epoch_time_now,
                 "exp": epoch_expiration_time,
             }
@@ -79,7 +79,7 @@ class PeopleSoftAPI:
         headers = {
             "Content-Type": "application/json",
             "Authorization": generate_auth_token(),
-            "Host": "rp-api.tssi.ca",
+            "Host": conf['api_host'],
             "Accept-Encoding": "gzip, deflate, br",
             "Connection": "keep-alive",
         }

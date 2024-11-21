@@ -4,14 +4,19 @@
 # e.g. "E:\\ETL_V8\\sdpr-cdw-data-pipelines\\chips\\chips-src-to-stg"
 project_sys_path: "[path to the root of this project]"
 
-# the Oracle connection string subkey in Windows Registry for the ETL user
+# The Oracle connection string subkey in Windows Registry for the ETL user
 # e.g. "CW1P_ETL"
 etl_conn_str_subkey: "[Windows Registry subkey for the ETL user Oracle connection string]"
 
-# the Oracle connection string subkey in Windows Registry for the CHIPS_STG user
+# The Oracle connection string subkey in Windows Registry for the CHIPS_STG user
 # e.g. "CW1T_CHIPS_STG"
 chips_stg_conn_str_subkey: "[Windows Registry subkey for the CHIPS_STG user Oracle connection string]"
 
-# the proxy used to send requests to the API
+# The proxy used to send requests to the API
 # e.g. "http://142.34.229.249:8080"
 proxy: "[proxy address]"
+
+# all components of the URL for the API needed to access endpoints:
+api_scheme: "https://"
+api_host: "rp-api.tssi.ca"
+api_base_path: "/mhrgrp"
