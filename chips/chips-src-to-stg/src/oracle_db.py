@@ -105,10 +105,6 @@ class OracleDB:
         # try:
         logger.debug(f'executing "{statement}" with {parameters}')
         self.cursor.execute(statement, parameters)
-        # except oracledb.Error as e:
-        #     raise DatabaseException(e)
-        # except Exception as e:
-        #     raise Exception(f"unhandled exception: {e}")
 
     def execute_many(self, statement: str, parameters) -> None:
         """
@@ -125,10 +121,6 @@ class OracleDB:
         # try:
         logger.debug(f'executing many "{statement}"')
         self.cursor.executemany(statement, parameters)
-        # except oracledb.Error as e:
-        #     raise DatabaseException(e)
-        # except Exception as e:
-        #     raise Exception(f"unhandled exception: {e}")
 
     def query_to_df(self, query_string: str, parameters=None) -> pd.DataFrame:
         """
