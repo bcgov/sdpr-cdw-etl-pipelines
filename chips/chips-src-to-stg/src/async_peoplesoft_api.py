@@ -74,7 +74,7 @@ class AsyncPeopleSoftAPI:
         Returns:
             aiohttp.ClientResponse: The response from the API request.
         """
-        url = f"/mhrgrp/{endpoint}"
+        url = f"{conf['api_base_path']}/{endpoint}"
 
         headers = {
             "Content-Type": "application/json",
