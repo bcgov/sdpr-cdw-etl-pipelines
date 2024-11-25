@@ -129,7 +129,7 @@ class ETLEngine:
             return transformed_data
 
         except AttributeError:
-            logger.debug('ETLEngine.transform encountered an AttributeError and ignored it')
+            logger.exception('ETLEngine.transform encountered an AttributeError and ignored it')
 
         except Exception as e:
             raise TransformException(e)
@@ -167,7 +167,7 @@ class ETLEngine:
 
         except oracledb.DatabaseError as e:
             error, = e.args
-            logger.info(f'Encountered Oracle error code: {error.code}')
+            logger.exception(f'Encountered Oracle error code: {error.code}')
 
             if error.code == 1:
                 logger.info('''

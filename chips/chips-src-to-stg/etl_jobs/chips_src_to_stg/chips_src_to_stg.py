@@ -10,6 +10,8 @@ import logging
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
+    filename='chips\chips-src-to-stg\etl_jobs\chips_src_to_stg\chips_src_to_stg.log',
+    filemode='w',
     level=logging.INFO, 
     format="{levelname} ({asctime}): {message}", 
     datefmt='%d/%m/%Y %H:%M:%S',
@@ -75,4 +77,8 @@ def main():
     )
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        logging.exception('Got exception on main handler')
+        raise

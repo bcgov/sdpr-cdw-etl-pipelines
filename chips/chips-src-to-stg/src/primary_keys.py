@@ -87,5 +87,5 @@ class PrimaryKeys:
             logger.debug(f'Primary key called {pk_name} is {pk}')
             return pk
         except KeyError:
-            logger.debug(f'Primary key is not defined for {pk_name}')
+            logger.exception(f'Primary key is not defined for {pk_name}')
             return []

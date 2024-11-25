@@ -518,7 +518,7 @@ def build_tables(
                     db=etl_db, table=table
                 )
             except Exception as e:
-                print(e)
+                logging.exception(f'Got exception when attempting to build table {table}')
                 records_at_endpoint = None
                 fields_at_endpoint = None
                 rows_in_oracle = None
@@ -544,7 +544,7 @@ def build_tables(
                 last_rerun_of_failed_requests=last_rerun_of_failed_requests,
             )
 
-            exit(16)
+            # exit(16)
 
     for endpoint, table in endpoint_table_pairs:
         build_table(
@@ -558,7 +558,7 @@ def build_tables(
     # api_catalog_schemas_etl.main()
     # api_catalog_endpoints_etl.main()
 
-    exit(1)
+    # exit(1)
 
 
 def peoplesoft_etl_engine(

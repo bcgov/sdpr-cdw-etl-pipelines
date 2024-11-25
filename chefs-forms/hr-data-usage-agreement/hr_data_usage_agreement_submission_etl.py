@@ -198,7 +198,7 @@ def transform(extracted_data: pd.DataFrame):
         return transformed_data
 
     except AttributeError:
-        logger.debug('ETLEngine.transform encountered an AttributeError and ignored it')
+        logger.exception('ETLEngine.transform encountered an AttributeError and ignored it')
 
 
 def load(transformed_data: pd.DataFrame, truncate_first: bool = True) -> None:
