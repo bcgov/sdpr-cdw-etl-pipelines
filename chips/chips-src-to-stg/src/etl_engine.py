@@ -167,8 +167,6 @@ class ETLEngine:
 
         except oracledb.DatabaseError as e:
             error, = e.args
-            logger.exception(f'Encountered Oracle error code: {error.code}')
-
             if error.code == 1:
                 logger.info('''
                     Encountered ORA-00001: unique constraint violated.
@@ -181,7 +179,8 @@ class ETLEngine:
                     parameters=row_params,
                 )   
             else:
-                raise e
+                logger.exception(f'Encountered Oracle error code: {error.code}')
+                raise
 
 
     def merge_new_records_on_primary_key_or_all_cols(
