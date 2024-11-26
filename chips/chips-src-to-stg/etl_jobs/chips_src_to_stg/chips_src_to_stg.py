@@ -8,9 +8,10 @@ sys.path.append(base_dir)
 from src.peoplesoft_etl import *
 import logging
 
+this_dir = os.path.dirname(os.path.realpath(__file__))
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename='chips\chips-src-to-stg\etl_jobs\chips_src_to_stg\chips_src_to_stg.log',
+    filename=f'{this_dir}\chips_src_to_stg.log',
     filemode='w',
     level=logging.INFO, 
     format="{levelname} ({asctime}): {message}", 
