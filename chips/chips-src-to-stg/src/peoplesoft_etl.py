@@ -167,60 +167,12 @@ def get_last_rerun_of_failed_requests(db: OracleDB, table: str):
     return last_rerun_dt
 
 
-async def update_max_pay_end_dt_in_ps_pay_oth_earns_by_date(etl_engine:  ETLEngine) -> None:
+async def get_pay_dates_list(etl_engine: ETLEngine) -> list:
     """
-    Updates the records for the maximum available pay end date from the specified endpoint.
-
-    Deletes existing records for this pay end date before adding the new records.
-
-    Args:
-        etl_engine (ETLEngine): The ETLEngine instance used for ETL operations.
-    """
-    endpoint = 'ps_pay_oth_earns_by_date'
-
-    # Get the max pay end date available
-    async with aiohttp.ClientSession(base_url=etl_engine.api.base_url) as session:
-        pay_dates = await etl_engine.api.get_items(
-            session=session, endpoint='ps_pay_oth_earns_pay_dates', params={'limit': 10000}
-        )
-    df = pd.DataFrame.from_dict(pay_dates)
-    max_pay_end_dt = df['pay_end_dt'].max()
-    params = {'payenddate': max_pay_end_dt}
-
-    # delete records where PAY_END_DT = max(payenddate) available at endpoint
-    etl_engine.oracledb.delete(
-        table_owner=etl_engine.oracle_table_owner, 
-        table_name=etl_engine.oracle_table_name,
-        where_str="PAY_END_DT = to_date(:payenddate, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"')",
-        parameters={'payenddate': max_pay_end_dt}
-    )
-
-    # add the records for the max pay end date to the table
-    await etl_engine.add_records_to_table(
-        endpoint=endpoint,
-        params=params,
-    )
-
-    # re-run failed requests
-    await etl_engine.rerun_etl_for_failed_requests(endpoint=endpoint)
-
-
-async def update_last_n_pay_end_dates(etl_engine: ETLEngine, last_n_pay_end_dates: int = 1) -> None:
-    """
-    For endpoints that have 'payenddate' as a query parameter and 'PAY_END_DT' as the corresponding 
-    column in the Oracle table, this function gets all records for the last_n_pay_end_dates from 
-    endpoint and loads them into table_name in Oracle.
-
-    Args:
-        etl_engine (ETLEngine): The ETLEngine instance used for ETL operations.
-        last_n_pay_end_dates (int, optional): The number of last pay end dates to process (default is 1).
+    Gets a list of pay dates for endpoint in etl_engine.
+    Requires: the endpoint has a sibling endpoint of the form [endpoint]_pay_dates.
     """
     endpoint = etl_engine.api_endpoint
-
-    etl_engine.worker.task_count = 1
-    etl_engine.worker.start_task_sleep_time = 0.1
-
-    # Get available pay end dates
     pay_dates_endpoint = endpoint[:-8] + '_pay_dates'
     async with aiohttp.ClientSession(base_url=etl_engine.api.base_url) as session:
         pay_dates = await etl_engine.api.get_items(
@@ -228,6 +180,27 @@ async def update_last_n_pay_end_dates(etl_engine: ETLEngine, last_n_pay_end_date
         )
     df = pd.DataFrame.from_dict(pay_dates)
     dates = df['pay_end_dt'].to_list()
+    return dates
+
+
+async def refresh_last_n_pay_end_dates(
+    etl_engine: ETLEngine, last_n_pay_end_dates: int = 2
+) -> None:
+    """
+    For endpoints that have 'payenddate' as a query parameter and 'PAY_END_DT' as the corresponding 
+    column in the Oracle table, this function gets all records for the last_n_pay_end_dates from 
+    endpoint and loads them into table_name in Oracle.
+
+    Args:
+        etl_engine (ETLEngine): The ETLEngine instance used for ETL operations.
+        last_n_pay_end_dates (int, optional): The number of last pay end dates to process (default is 2).
+    """
+    endpoint = etl_engine.api_endpoint
+
+    etl_engine.worker.task_count = 1
+    etl_engine.worker.start_task_sleep_time = 0.1
+
+    dates = await get_pay_dates_list(etl_engine=etl_engine)
     last_n_dates = dates[-last_n_pay_end_dates:]
     list_of_params = [{'payenddate': payenddate} for payenddate in last_n_dates]
 
@@ -247,6 +220,51 @@ async def update_last_n_pay_end_dates(etl_engine: ETLEngine, last_n_pay_end_date
             where_str="PAY_END_DT = to_date(:payenddate, 'YYYY-MM-DD\"T\"HH24:MI:SS\"Z\"')",
             parameters={'payenddate': pay_end_date}
         )
+
+    # add the records for the pay end date to the table
+    await etl_engine.insert_records_using_params(
+        endpoint=endpoint, 
+        list_of_params=list_of_params,
+        n_records_per_task=300000,
+        n_requests_per_session=500,
+    )
+
+    # re-run failed requests
+    await etl_engine.rerun_etl_for_failed_requests(endpoint=endpoint)
+
+
+async def refresh_entire_pay_date_table(
+    etl_engine: ETLEngine
+) -> None:
+    """
+    For endpoints that have 'payenddate' as a query parameter and 'PAY_END_DT' as the corresponding 
+    column in the Oracle table, this function gets all records from the [endpoint]_pay_dates 
+    endpoint and loads them into table_name in Oracle.
+
+    Args:
+        etl_engine (ETLEngine): The ETLEngine instance used for ETL operations.
+    """
+    endpoint = etl_engine.api_endpoint
+
+    etl_engine.worker.task_count = 1
+    etl_engine.worker.start_task_sleep_time = 0.1
+
+    dates = await get_pay_dates_list(etl_engine=etl_engine)
+    list_of_params = [{'payenddate': payenddate} for payenddate in dates]
+
+    # grant delete on the current table to ETL
+    # chips_stg_db = OracleDB(conn_str_key_endpoint=conf['chips_stg_conn_str_subkey'])
+    # chips_stg_db.grant(
+    #     grant_type='delete', 
+    #     on_str=f'{etl_engine.oracle_table_owner}.{etl_engine.oracle_table_name}', 
+    #     to_str='ETL'
+    # )
+    # chips_stg_db.close_cursor()
+
+    etl_engine.oracledb.truncate(
+        table_owner=etl_engine.oracle_table_owner, 
+        table_name=etl_engine.oracle_table_name
+    )
 
     # add the records for the pay end date to the table
     await etl_engine.insert_records_using_params(
@@ -282,13 +300,7 @@ async def update_pay_end_dates_in_range(
     etl_engine.worker.start_task_sleep_time = 2
 
     # Get available pay end dates
-    pay_dates_endpoint = endpoint[:-8] + '_pay_dates'
-    async with aiohttp.ClientSession(base_url=etl_engine.api.base_url) as session:
-        pay_dates = await etl_engine.api.get_items(
-            session=session, endpoint=pay_dates_endpoint, params={'limit': 10000}
-        )
-    df = pd.DataFrame.from_dict(pay_dates)
-    dates = df['pay_end_dt'].to_list()
+    dates = await get_pay_dates_list(etl_engine=etl_engine)
     dt_dates = [dt.datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ') for date in dates]
     dt_dates_in_range = []
     for date in dt_dates:
@@ -310,40 +322,6 @@ async def update_pay_end_dates_in_range(
         endpoint=endpoint, 
         list_of_params=list_of_params,
         n_records_per_task=300000,
-        n_requests_per_session=500,
-    )
-
-    # re-run failed requests
-    await etl_engine.rerun_etl_for_failed_requests(endpoint=endpoint)
-
-
-async def rebuild_ps_pay_oth_earns_by_date(etl_engine:  ETLEngine) -> None:
-    """
-    Gets all records from ps_pay_oth_earns_by_date for all available pay end dates 
-    and loads them into the Oracle table after first truncating it.
-
-    Args:
-        etl_engine (ETLEngine): The ETLEngine instance used for ETL operations.
-    """
-    endpoint = 'ps_pay_oth_earns_by_date'
-
-    # Get the available pay end dates to pass as query parameters
-    async with aiohttp.ClientSession(base_url=etl_engine.api.base_url) as session:
-        pay_dates_recs = await etl_engine.api.get_items(
-            session=session, endpoint='ps_pay_oth_earns_pay_dates', params={'limit': 10000}
-        )
-
-    total_records = sum([rec['total_records'] for rec in pay_dates_recs])
-    logger.info(f"total records at ps_pay_oth_earns_by_date: {total_records}")
-
-    pay_end_dates = [rec['pay_end_dt'] for rec in pay_dates_recs]
-    list_of_params = [{'payenddate': payenddate} for payenddate in pay_end_dates]
-
-    # add the records for the max pay end date to the table
-    await etl_engine.rebuild_table_using_params(
-        endpoint=endpoint,
-        list_of_params=list_of_params,
-        n_records_per_task=20,
         n_requests_per_session=500,
     )
 
@@ -373,11 +351,13 @@ async def run_etl_worker(
     )
 
     if endpoint[-8:] == '_by_date':
-        await update_last_n_pay_end_dates(etl_engine=etl_engine, last_n_pay_end_dates=3)
+        # await refresh_last_n_pay_end_dates(
+        #     etl_engine=etl_engine, last_n_pay_end_dates=3
+        # )
+        await refresh_entire_pay_date_table(etl_engine=etl_engine)
         # await update_pay_end_dates_in_range(
         #     etl_engine=etl_engine, min_date='2004-05-29', max_date='2011-12-17'
         # )
-        # await rebuild_ps_pay_oth_earns_by_date(etl_engine=etl_engine)
 
     elif endpoint[-10:] == '_pay_dates':
         await etl_engine.rebuild_table_using_params(
