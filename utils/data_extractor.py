@@ -20,7 +20,7 @@ class DataExtractor:
     def split_sql_statements_in_str(self, sql_str):
         """Returns a list of SQL statements inside a singular string of SQL statements seperated by semi-colons"""
         sql_splitlines = sql_str.splitlines()
-        sql_joined_lines = "".join(sql_splitlines)
+        sql_joined_lines = " ".join(sql_splitlines)
         sql_statements = [statement for statement in sql_joined_lines.split(';') if statement]
         return sql_statements
 
