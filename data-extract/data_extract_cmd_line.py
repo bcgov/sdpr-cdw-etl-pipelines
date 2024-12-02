@@ -20,17 +20,11 @@ logging.basicConfig(
     style='{'
 )
 
-def main():
-    db = OracleDB(conn_str_key_endpoint='CW1D_ETL')
-    data_extractor = DataExtractor(oracle_db=db)
-    data_extractor.sql_to_xlsx(
-        sql_filepath=f'{this_dir}\sample.sql', 
-        xlsx_filepath=f'{this_dir}\data.xlsx'
-    )
-
 if __name__ == "__main__":
     try:
-        main()
+        db = OracleDB(conn_str_key_endpoint='CW1D_ETL')
+        data_extractor = DataExtractor(oracle_db=db)
+        data_extractor.sql_to_xlsx(sys.argv[1], sys.argv[2])
     except:
         logging.exception('Got exception on main handler')
         raise
