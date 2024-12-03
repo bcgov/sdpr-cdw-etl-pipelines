@@ -334,7 +334,8 @@ async def run_etl_worker(
     endpoint: str, 
     n_records_per_task: int, 
     n_workers: int = 20, 
-    start_task_sleep_time: float = 1
+    start_task_sleep_time: float = 1,
+    incremental_refresh: bool = True,
 ) -> None:
     """
     Runs async ETL tasks using a worker.
@@ -351,10 +352,12 @@ async def run_etl_worker(
     )
 
     if endpoint[-8:] == '_by_date':
-        # await refresh_last_n_pay_end_dates(
-        #     etl_engine=etl_engine, last_n_pay_end_dates=3
-        # )
-        await refresh_entire_pay_date_table(etl_engine=etl_engine)
+        if incremental_refresh:
+            await refresh_last_n_pay_end_dates(
+                etl_engine=etl_engine, last_n_pay_end_dates=3
+            )
+        else:
+            await refresh_entire_pay_date_table(etl_engine=etl_engine)
         # await update_pay_end_dates_in_range(
         #     etl_engine=etl_engine, min_date='2004-05-29', max_date='2011-12-17'
         # )
@@ -374,7 +377,8 @@ async def run_etl_worker(
 def build_tables(
     endpoint_table_pairs: list[str],
     n_task_workers: int = 25,
-    start_task_sleep_time: int = 1
+    start_task_sleep_time: int = 1,
+    incremental_refresh: bool = True,
 ) -> None:
     """
     Builds tables by processing records from specified API endpoints.
@@ -449,6 +453,7 @@ def build_tables(
                     n_records_per_task=n_records_per_task,
                     n_workers=n_task_workers,
                     start_task_sleep_time=start_task_sleep_time,
+                    incremental_refresh=incremental_refresh,
                 )
             )
             logger.info(f"Successfuly built {table}")

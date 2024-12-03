@@ -72,9 +72,10 @@ def main():
 
     # Start the ETL process with specified parameters
     build_tables(
-        endpoint_table_pairs = endpoint_table_pairs,
-        n_task_workers = 10,
-        start_task_sleep_time = 2,
+        endpoint_table_pairs=endpoint_table_pairs,
+        n_task_workers=10,
+        start_task_sleep_time=2,
+        incremental_refresh=True,
     )
 
 if __name__ == "__main__":
