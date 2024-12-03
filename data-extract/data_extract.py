@@ -21,7 +21,7 @@ logging.basicConfig(
 )
 
 def main():
-    db = OracleDB(conn_str_key_endpoint='CW1D_ETL')
+    db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
     data_extractor = DataExtractor(oracle_db=db)
     data_extractor.sql_to_xlsx(
         sql_filepath=f'{this_dir}\sample.sql', 
