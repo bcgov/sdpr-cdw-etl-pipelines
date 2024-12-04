@@ -5,8 +5,7 @@ USING (
         Case 
             when ia_x_created_by in ('SIEBEL_EAI_MSD','SADMIN','SIEBEL_EAI', 'HSDGENUSR')  
                 then 'System' 
-            when ia_x_created_by is NULL
-                then '( Blank )' 
+            when ia_x_created_by is NULL then '( Blank )' 
             else 'Worker'
             end Application_Created_by,
         Case  
@@ -18,12 +17,9 @@ USING (
                 and ia_x_owner in ('SADMIN','HSDGENUSR') 
                 and application_submission_dt is null 
                 then 'System' 
-            when ia_status in ('Cancelled') 
-                then 'Worker' 
-            when ia_close_dt is NULL 
-                then '( Blank )' 
-            when ia_x_owner in ('SADMIN','HSDGENUSR') 
-                then 'System' 
+            when ia_status in ('Cancelled') then 'Worker' 
+            when ia_close_dt is NULL then '( Blank )' 
+            when ia_x_owner in ('SADMIN','HSDGENUSR') then 'System' 
             else 'Worker'
             end Application_Closed_By,
         Case 
@@ -32,14 +28,23 @@ USING (
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
-                and (ia_x_sub_sub_type = 'Expedited') 
+                and ia_x_sub_sub_type = 'Expedited' 
+                and ia_x_comm_method_cd != 'Interpretation Services'
                 then 'Expedited' 
             when (ia_x_svc_office like '0IA%' 
                 or ia_x_svc_office like '0IB%' 
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
-                and (ia_x_sub_sub_type = 'Fleeing Abuse') 
+                and ia_x_sub_sub_type = 'Expedited'
+                and ia_x_comm_method_cd = 'Interpretation Services'
+                then 'Expedited Interpreter' 
+            when (ia_x_svc_office like '0IA%' 
+                or ia_x_svc_office like '0IB%' 
+                or ia_x_svc_office like '0IN%' 
+                or ia_x_svc_office like '0CP%' 
+                or ia_x_svc_office like '099%') 
+                and ia_x_sub_sub_type = 'Fleeing Abuse'
                 then 'Fleeing Abuse' 
             when (ia_x_svc_office like '0IA%' 
                 or ia_x_svc_office like '0IB%' 
@@ -52,8 +57,7 @@ USING (
                 or ia_x_svc_office like '0IP%' 
                 or ia_x_svc_office like '0IC%') 
                 then 'Specialized' 
-            when (ia_sr_wid is NULL) 
-                then '( Blank )'  
+            when ia_sr_wid is NULL then '( Blank )'  
             else 'Other'
             end Application_Grouping,
         Case 
@@ -62,21 +66,21 @@ USING (
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
-                and (ia_x_sub_sub_type = 'Expedited') 
+                and ia_x_sub_sub_type = 'Expedited'
                 then 'Expedited' 
             when (ia_x_svc_office like '0IA%' 
                 or ia_x_svc_office like '0IB%' 
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
-                and (ia_x_sub_sub_type = 'Fleeing Abuse') 
+                and ia_x_sub_sub_type = 'Fleeing Abuse' 
                 then 'Fleeing Abuse' 
             when (ia_x_svc_office like '0IA%' 
                 or ia_x_svc_office like '0IB%' 
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
-                and (ia_x_sub_sub_type = 'Interpreter Required') 
+                and ia_x_sub_sub_type = 'Interpreter Required'
                 then 'Interpreter Required' 
             when (ia_x_svc_office like '0IA%' 
                 or ia_x_svc_office like '0IB%' 
@@ -89,7 +93,7 @@ USING (
                 or ia_x_svc_office like '0IP%' 
                 or ia_x_svc_office like '0IC%') 
                 then 'Specialized' 
-            when (ia_sr_wid is NULL) then '( Blank )'  
+            when ia_sr_wid is NULL then '( Blank )'  
             else 'Other'
             end New_Application_Grouping,
         Case 
