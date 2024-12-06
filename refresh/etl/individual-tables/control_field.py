@@ -22,7 +22,7 @@ logging.basicConfig(
 def main():
     table = 'etl.control_field'
     r = Refresh()
-    r.full_refresh(table)
+    r.import_table_w_datapump(tables=table)
 
 if __name__ == "__main__":
     try:

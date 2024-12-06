@@ -20,21 +20,20 @@ logging.basicConfig(
 )
 
 def main():
-    for table in [
-        'control_object',
-        'control_stream',
-        'control_function',
-        'control_task',
-        'control_field',
-        'control_stage',
-        'control_step',
-        'control_fragment',
-        'control_privilege',
-        'control_transform',
-    ]:
-        full_table = f'etl.{table}'
-        r = Refresh()
-        r.full_refresh(full_table)
+    tables = '''
+        etl.control_object,
+        etl.control_stream,
+        etl.control_function,
+        etl.control_task,
+        etl.control_field,
+        etl.control_stage,
+        etl.control_step,
+        etl.control_fragment,
+        etl.control_privilege,
+        etl.control_transform
+    '''
+    r = Refresh()
+    r.import_table_w_datapump(tables=tables)
 
 if __name__ == "__main__":
     try:
