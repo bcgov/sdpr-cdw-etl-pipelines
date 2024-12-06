@@ -6,6 +6,7 @@ load_dotenv(dotenv_path="E:\\ETL_V8\\sdpr-cdw-data-pipelines\\refresh\\.env")
 base_dir = os.getenv('MAIN_BASE_DIR')
 sys.path.append(base_dir)
 from utils.sql_plus import SqlPlus
+from utils.cmd import Cmd
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -33,8 +34,9 @@ class Refresh:
         to_db_user=os.getenv('TO_DB_USER'),
         to_db_password=os.getenv('TO_DB_PASSWORD'),
         to_db_connect_identifier=os.getenv('TO_DB_CONNECT_IDENTIFIER'),
-        dir='DATAPUMP_ENV_REFRESH_DIR',
-        network_link='cwp_link',
+        dir=os.getenv('DATAPUMP_ENV_REFRESH_DIR'),
+        network_link=os.getenv('FROM_DB_LINK'),
+        table_exists_action='replace',
     ):
         # impdp command fragments
         _destination_db = f'{to_db_user}/{to_db_password}@{to_db_connect_identifier}'
@@ -45,11 +47,10 @@ class Refresh:
             _remap = ''
         else:
             _remap = f'remap_table={remap_from_table}:{remap_to_table}'
+        _table_exists_action = f'table_exists_action={table_exists_action}'
 
-        cmd = f'impdp "{_destination_db}" {_directory} {_network_link} {_tables} {_remap}'
-
+        cmd = f'impdp "{_destination_db}" {_directory} {_network_link} {_tables} {_remap} {_table_exists_action}'
         logger.info(cmd)
-
         c = Cmd()
         c.run_cmd(cmd)
 
