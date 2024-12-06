@@ -25,7 +25,35 @@ class Refresh:
     def __init__(self):
         pass
 
-    def full_refresh(self, table):
+    def import_table_w_datapump(
+        self,
+        tables,
+        remap_from_table=None,
+        remap_to_table=None,
+        to_db_user=os.getenv('TO_DB_USER'),
+        to_db_password=os.getenv('TO_DB_PASSWORD'),
+        to_db_connect_identifier=os.getenv('TO_DB_CONNECT_IDENTIFIER'),
+        dir='DATAPUMP_ENV_REFRESH_DIR',
+        network_link='cwp_link',
+    ):
+        # impdp command fragments
+        _destination_db = f'{to_db_user}/{to_db_password}@{to_db_connect_identifier}'
+        _directory = f'directory={dir}'
+        _network_link = f'network_link={network_link}'
+        _tables = f'tables={tables}'
+        if remap_from_table is None and remap_to_table is None:
+            _remap = ''
+        else:
+            _remap = f'remap_table={remap_from_table}:{remap_to_table}'
+
+        cmd = f'impdp "{_destination_db}" {_directory} {_network_link} {_tables} {_remap}'
+
+        logger.info(cmd)
+
+        c = Cmd()
+        c.run_cmd(cmd)
+
+    def refresh_table_w_sqlplus(self, table):
         s = SqlPlus()
         s.create_or_replace_copy(
             from_db_user = os.getenv('FROM_DB_USER'),
