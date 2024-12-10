@@ -22,11 +22,82 @@ chefs_api = ChefsApi(
 
 class TestChefsApi(unittest.TestCase):
 
-    def test_submissions_endpoint(self):
-        self.assertEqual(200, chefs_api.get(chefs_api.submissions_endpoint).status_code)
+    def test_submissions_endpoint_status(self):
+        resp = chefs_api.get(chefs_api.submissions_endpoint)
+        status_code = resp.status_code
+        self.assertEqual(200, status_code)
+
+    def test_submissions_endpoint_fields(self):
+        submissions = chefs_api.get_json(chefs_api.submissions_endpoint)
+        for submission in submissions:
+            # keys = submission.keys()
+            sub = submission.get('submission')
+            # submissions_keys = s.keys()
+            s = sub.get('data')
+            # s_keys = s.keys()
+            # print(s_keys)
+
+            date = s.get('date')
+            submit = s.get('submit')
+            editGrid1 = s.get('editGrid1')
+            lateEntry = s.get('lateEntry')
+            simpleemail = s.get('simpleemail')
+            positionTitle1 = s.get('positionTitle1')
+            supervisorsName = s.get('supervisorsName')
+            durationOfAccess = s.get('durationOfAccess')
+            simplesignatureadvanced = s.get('simplesignatureadvanced')
+            provideClearRationaleForAccess2 = s.get('provideClearRationaleForAccess2')
+            pleaseUploadTheUsersSignedAgreement = s.get('pleaseUploadTheUsersSignedAgreement')
+            enterDataRelatedToAnyOfTheFollowingDomains = s.get('enterDataRelatedToAnyOfTheFollowingDomains')
+            ifOtherPleaseProvideDetailsBelow = s.get('ifOtherPleaseProvideDetailsBelow')
+            ifThisIsTemporaryPleaseProvideTheAccessEndDate = s.get('ifThisIsTemporaryPleaseProvideTheAccessEndDate')
+            requires_other_data = enterDataRelatedToAnyOfTheFollowingDomains.get('other')
+            requires_fte_data = enterDataRelatedToAnyOfTheFollowingDomains.get('fteData')
+            requires_stiip_data = enterDataRelatedToAnyOfTheFollowingDomains.get('stiipData')
+            requires_time_leave_data = enterDataRelatedToAnyOfTheFollowingDomains.get('timeLeave')
+            requires_employee_data = enterDataRelatedToAnyOfTheFollowingDomains.get('employeeData')
+            requires_pay_cost_earnings_data = enterDataRelatedToAnyOfTheFollowingDomains.get('payCostEarnings')
+            requires_employee_movement_data = enterDataRelatedToAnyOfTheFollowingDomains.get('employeeMovement')
+            requires_org_heirarchy_data = enterDataRelatedToAnyOfTheFollowingDomains.get('organizationalHierarchy')
+
+            for user in editGrid1:
+                idir = user.get('idir')
+                branch = user.get('branch')
+                nameOfUser = user.get('nameOfUser')
+                positionTitle = user.get('positionTitle')
+                positionTitle2 = user.get('positionTitle2')
+                simpleemailadvanced = user.get('simpleemailadvanced')
+
+                print(nameOfUser)
+                print(requires_fte_data)
+                print(requires_stiip_data)
+                print(requires_time_leave_data)
+                print(requires_employee_data)
+                print(requires_pay_cost_earnings_data)
+                print(requires_employee_movement_data)
+                print(requires_org_heirarchy_data)
+                print(requires_other_data)
+                print(ifOtherPleaseProvideDetailsBelow)
+                print(durationOfAccess)
+                print(ifThisIsTemporaryPleaseProvideTheAccessEndDate)
+                print(provideClearRationaleForAccess2)
+
+                print(date)
+                print(idir)
+                print(positionTitle)
+                print(branch)
+                print(positionTitle2)
+                print(simpleemailadvanced)
+                print(supervisorsName)
+                print(positionTitle1)
+                print(simpleemail)
+                print('------------------------------------------')
+        
 
     def test_status_codes_endpoint(self):
-        self.assertEqual(200, chefs_api.get(chefs_api.status_codes_endpoint).status_code)
+        resp = chefs_api.get(chefs_api.status_codes_endpoint)
+        status_code = resp.status_code
+        self.assertEqual(200, status_code)
 
     def test_get_current_status(self):
         submissions = chefs_api.get_json(chefs_api.submissions_endpoint)
@@ -37,7 +108,6 @@ class TestChefsApi(unittest.TestCase):
     def test_get_published_version_endpoint(self):
         published_version = chefs_api.get_json(chefs_api.published_version_endpoint)
         actual_id = published_version['id']
-        # print(actual_id)
         expected_id = form_id
         self.assertEqual(expected_id, actual_id)
 

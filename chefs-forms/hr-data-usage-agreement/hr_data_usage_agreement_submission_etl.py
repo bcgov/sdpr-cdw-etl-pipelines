@@ -1,15 +1,25 @@
-from src.chefs_api import ChefsApi
-from src.oracle_db import OracleDB
-import src.utils as utils
 import pandas as pd
 import numpy as np
 import logging
 import yaml
+import sys
+from dotenv import load_dotenv
+import os 
+load_dotenv()
+base_dir = os.getenv('MAIN_BASE_DIR')
+print(base_dir)
+sys.path.append(base_dir)
+from utils.oracle_db import OracleDB
+from src.chefs_api import ChefsApi
+import src.utils as utils
 
-# logging
+this_dir = os.path.dirname(os.path.realpath(__file__))
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    level=logging.INFO, 
+    # filename=f'{this_dir}\.log',
+    # filemode='w',
+    level=logging.DEBUG, 
     format="{levelname} ({asctime}): {message}", 
     datefmt='%d/%m/%Y %H:%M:%S',
     style='{'
@@ -27,7 +37,7 @@ with open('chefs-forms\hr-data-usage-agreement\config.yml', 'r') as f:
     form_version_id = config['form-version-id']
 
 # initialize objects for ETL
-oracle_db = OracleDB(conn_str_key_endpoint='CW1D_ETL')
+oracle_db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
 chefs_api = ChefsApi(
     api_key_secret=api_key_secret, 
     form_id=form_id, 
@@ -44,22 +54,8 @@ def extract():
 
     # initialize the dict that will be returned as a df
     data_dict = {
-        "submission_id": [],
-        "confirmation_id": [],
-        "submission_date": [],
+        "employee": [],
         "status": [],
-        "idir": [],
-        "name": [],
-        "branch": [],
-        "division": [],
-        "email": [],
-        "position": [],
-        "supervisors_name": [],
-        "supervisors_position": [],
-        "supervisors_email": [],
-        "draft": [],
-        "deleted": [],
-        "duration_of_access": [],
         "requires_fte_data": [],
         "requires_stiip_data": [],
         "requires_time_leave_data": [],
@@ -68,89 +64,92 @@ def extract():
         "requires_employee_movement_data": [],
         "requires_org_heirarchy_data": [],
         "requires_other_data": [],
-        "rationale_for_access": [],
-        "details_about_required_data": [],
+        "details_of_other_required_data": [],
+        "duration_of_access": [],
+        "access_end_date": [],
+        "rational_for_access": [],
+        "submission_date": [],
+        "employee_idir": [],
+        "employee_position": [],
+        "employee_branch": [],
+        "employee_divison": [],
+        "employee_email": [],
+        "supervisor_name": [],
+        "supervisor_position": [],
+        "supervisor_email": [],
+        "deleted": [],
     }
 
     # extract submission data and add it to data_dict
-    for s in submissions:
-        submission_id = s['id']
+    for submission in submissions:
+        deleted = submission['deleted']
+        submission_id = submission['id']
         status = chefs_api.get_current_status(submission_id=submission_id)
-        formVersionId = s['formVersionId']
-        confirmation_id = s['confirmationId']
-        draft = s['draft']
-        deleted = s['deleted']
-        submission = s['submission']
-        createdBy = s['createdBy']
-        createdAt = s['createdAt']
-        updatedBy = s['updatedBy']
-        updatedAt = s['updatedAt']
+        # keys = submission.keys()
+        sub = submission.get('submission')
+        # submissions_keys = s.keys()
+        s = sub.get('data')
+        # s_keys = s.keys()
+        # print(s_keys)
 
-        submission_data = submission['data']
-        state = submission['state']
-        _vnote = submission['_vnote']
-        metadata = submission['metadata']
+        date = s.get('date')
+        submit = s.get('submit')
+        editGrid1 = s.get('editGrid1')
+        lateEntry = s.get('lateEntry')
+        simpleemail = s.get('simpleemail')
+        positionTitle1 = s.get('positionTitle1')
+        supervisorsName = s.get('supervisorsName')
+        durationOfAccess = s.get('durationOfAccess')
+        provideClearRationaleForAccess2 = s.get('provideClearRationaleForAccess2')
+        enterDataRelatedToAnyOfTheFollowingDomains = s.get('enterDataRelatedToAnyOfTheFollowingDomains')
+        ifOtherPleaseProvideDetailsBelow = s.get('ifOtherPleaseProvideDetailsBelow')
+        ifThisIsTemporaryPleaseProvideTheAccessEndDate = s.get('ifThisIsTemporaryPleaseProvideTheAccessEndDate')
+        requires_other_data = enterDataRelatedToAnyOfTheFollowingDomains.get('other')
+        requires_fte_data = enterDataRelatedToAnyOfTheFollowingDomains.get('fteData')
+        requires_stiip_data = enterDataRelatedToAnyOfTheFollowingDomains.get('stiipData')
+        requires_time_leave_data = enterDataRelatedToAnyOfTheFollowingDomains.get('timeLeave')
+        requires_employee_data = enterDataRelatedToAnyOfTheFollowingDomains.get('employeeData')
+        requires_pay_cost_earnings_data = enterDataRelatedToAnyOfTheFollowingDomains.get('payCostEarnings')
+        requires_employee_movement_data = enterDataRelatedToAnyOfTheFollowingDomains.get('employeeMovement')
+        requires_org_heirarchy_data = enterDataRelatedToAnyOfTheFollowingDomains.get('organizationalHierarchy')
 
-        submission_date = submission_data['date']
-        idir = submission_data['idir']
-        branch = submission_data['branch']
-        submit = submission_data['submit']
-        division = submission_data['division']
-        lateEntry = submission_data['lateEntry']
-        name = submission_data['nameOfUser']
-        email = submission_data['simpleemailadvanced']
-        position = submission_data['positionTitle']
-        supervisors_position = submission_data['positionTitle1']
-        supervisors_email = submission_data['simpleemail']
-        simpletextarea = submission_data['simpletextarea']
-        supervisors_name = submission_data['supervisorsName']
-        duration_of_access = submission_data['durationOfAccess']
-        simplesignatureadvanced = submission_data['simplesignatureadvanced']
-        rationale_for_access = submission_data['provideClearRationaleForAccess2']
-        pleaseUploadTheUsersSignedAgreement = submission_data['pleaseUploadTheUsersSignedAgreement']
-        required_data_domains = submission_data['enterDataRelatedToAnyOfTheFollowingDomains']
-        details_about_required_data = submission_data['provideSufficientDetailAboutTheTablesReportsDashboardsReportGroupingsOrDataRequired2']
+        for user in editGrid1:
+            idir = user.get('idir')
+            branch = user.get('branch')
+            nameOfUser = user.get('nameOfUser')
+            positionTitle = user.get('positionTitle')
+            positionTitle2 = user.get('positionTitle2')
+            simpleemailadvanced = user.get('simpleemailadvanced')
 
-        requires_other_data = required_data_domains['others']
-        requires_fte_data = required_data_domains['fteData']
-        requires_stiip_data = required_data_domains['stiipData']
-        requires_time_leave_data = required_data_domains['timeLeave']
-        requires_employee_data = required_data_domains['employeeData']
-        requires_pay_cost_earnings_data = required_data_domains['payCostEarnings']
-        requires_employee_movement_data = required_data_domains['employeeMovement']
-        requires_org_heirarchy_data = required_data_domains['organizationalHierarchy']
+            curr_data_dict = {
+                "employee": nameOfUser,
+                "status": status,
+                "requires_fte_data": requires_fte_data,
+                "requires_stiip_data": requires_stiip_data,
+                "requires_time_leave_data": requires_time_leave_data,
+                "requires_employee_data": requires_employee_data,
+                "requires_pay_cost_earnings_data": requires_pay_cost_earnings_data,
+                "requires_employee_movement_data": requires_employee_movement_data,
+                "requires_org_heirarchy_data": requires_org_heirarchy_data,
+                "requires_other_data": requires_other_data,
+                "details_of_other_required_data": ifOtherPleaseProvideDetailsBelow,
+                "duration_of_access": durationOfAccess,
+                "access_end_date": ifThisIsTemporaryPleaseProvideTheAccessEndDate,
+                "rational_for_access": provideClearRationaleForAccess2,
+                "submission_date": date,
+                "employee_idir": idir,
+                "employee_position": positionTitle,
+                "employee_branch": branch,
+                "employee_divison": positionTitle2,
+                "employee_email": simpleemailadvanced,
+                "supervisor_name": supervisorsName,
+                "supervisor_position": positionTitle1,
+                "supervisor_email": simpleemail,
+                "deleted": deleted,
+            }
 
-        curr_data_dict = {
-            "submission_id": submission_id,
-            "confirmation_id": confirmation_id,
-            "submission_date": submission_date,
-            "status": status,
-            "idir": idir,
-            "name": name,
-            "branch": branch,
-            "division": division,
-            "email": email,
-            "position": position,
-            "supervisors_name": supervisors_name,
-            "supervisors_position": supervisors_position,
-            "supervisors_email": supervisors_email,
-            "draft": draft,
-            "deleted": deleted,
-            "duration_of_access": duration_of_access,
-            "requires_fte_data": requires_fte_data,
-            "requires_stiip_data": requires_stiip_data,
-            "requires_time_leave_data": requires_time_leave_data,
-            "requires_employee_data": requires_employee_data,
-            "requires_pay_cost_earnings_data": requires_pay_cost_earnings_data,
-            "requires_employee_movement_data": requires_employee_movement_data,
-            "requires_org_heirarchy_data": requires_org_heirarchy_data,
-            "requires_other_data": requires_other_data,
-            "rationale_for_access": rationale_for_access,
-            "details_about_required_data": details_about_required_data,
-        }
-
-        for key, value in data_dict.items():
-            value.append(curr_data_dict[key])
+            for key, value in data_dict.items():
+                value.append(curr_data_dict[key])
 
     # turn data_dict into a df
     data_df = pd.DataFrame.from_dict(data_dict)
@@ -173,7 +172,7 @@ def transform(extracted_data: pd.DataFrame):
         data_model_mapping = utils.data_model_mapping(
             utils.source_data_model(extracted_data),
             utils.target_data_model(
-                owner='ETL', table_name='HR_DATA_USAGE_AGREEMENT_SUBMISSIONS', db=oracle_db
+                owner='CPERCIVA', table_name='HR_DATA_USAGE_AGREEMENT_SUBMISSION', db=oracle_db
             ),
         )
 
@@ -210,10 +209,9 @@ def load(transformed_data: pd.DataFrame, truncate_first: bool = True) -> None:
         truncate_first (bool, optional): If True, truncates the table before loading. Defaults to True.
     """
     oracle_db.default_load(
-        table_owner='ETL',
-        table_name='HR_DATA_USAGE_AGREEMENT_SUBMISSIONS',
-        insert_cols=utils.insert_cols_str(transformed_data.columns),
-        number_of_cols=len(transformed_data.columns.tolist()),
+        table_owner='CPERCIVA',
+        table_name='HR_DATA_USAGE_AGREEMENT_SUBMISSION',
+        cols_to_load_list=transformed_data.columns.tolist(),
         writeRows=list(transformed_data.itertuples(index=False, name=None)),
         truncate_first=truncate_first,
     )
