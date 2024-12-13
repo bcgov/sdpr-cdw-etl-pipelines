@@ -51,6 +51,13 @@ USING (
                 or ia_x_svc_office like '0IN%' 
                 or ia_x_svc_office like '0CP%' 
                 or ia_x_svc_office like '099%') 
+                and ia_x_sub_sub_type = 'Interpreter Required'
+                then 'Interpreter Required' 
+            when (ia_x_svc_office like '0IA%' 
+                or ia_x_svc_office like '0IB%' 
+                or ia_x_svc_office like '0IN%' 
+                or ia_x_svc_office like '0CP%' 
+                or ia_x_svc_office like '099%') 
                 then 'General' 
             when (ia_x_svc_office like '0IF%' 
                 or ia_x_svc_office like '0IH%' 
