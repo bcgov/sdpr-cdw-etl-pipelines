@@ -1,0 +1,30 @@
+-- This file isn't yet used by the datastage job
+-- instead this sql is hardcoded becuase need to figure out
+-- how to deal with the datastage variables start.
+
+-- MERGE INTO IRSD_MYSS_INTAKE_FLOW TARGET USING (
+--     select /*+ PARALLEL 4 DYNAMIC_SAMPLING(4)*/ 
+--         IA_SR_WID,
+--         MIN(APAD.CREATED) APPLICATION_SUBMISSION_DT
+--     from ods.irsd_myss_intake_flow i
+--     INNER JOIN ICM_STG.WC_ACTIVITY_PLAN_F APF 
+--         ON I.IA_SR_WID = APF.SR_WID
+--         AND APF.DELETE_FLG = 'N'
+--         AND APF.CREATED_DT >= " : Start.ICM_4_2_5_DATE : " 
+--     INNER JOIN ICM_STG.WC_ACTIVITY_PLAN_D APD ON APD.ROW_WID = APF.ACT_PLAN_WID 
+--         AND APD.PLAN = 'SSAA'
+--         AND APD.DELETE_FLG = 'N'
+--     INNER JOIN ICM_STG.WC_ACT_PLAN_ACTIVITY_F APAF ON APAF.ACT_PLAN_WID = APF.ACT_PLAN_WID
+--         AND APD.DELETE_FLG = 'N'
+--     INNER JOIN ICM_STG.WC_ACT_PLAN_ACTIVITY_D APAD ON APAD.ROW_WID = APAF.ACT_PLAN_ACT_WID
+--         AND APAD.DELETE_FLG = 'N' 
+--         AND APAD.TYPE = 'System Task'
+--     WHERE IA_SR_WID IS NOT NULL 
+--         AND I.APPLICATION_SUBMISSION_DT IS NULL
+--     GROUP BY IA_SR_WID
+-- ) SRC ON (TARGET.IA_SR_WID = SRC.IA_SR_WID)
+-- WHEN MATCHED THEN UPDATE
+-- SET TARGET.APPLICATION_SUBMISSION_DT = SRC.APPLICATION_SUBMISSION_DT
+-- ;
+
+-- commit;

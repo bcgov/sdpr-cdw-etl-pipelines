@@ -1,0 +1,46 @@
+-- not in use since this has a datastage variable in it
+
+-- MERGE INTO IRSD_MYSS_INTAKE_FLOW TARGET USING ( 
+--     SELECT /*+ PARALLEL 4 DYNAMIC_SAMPLING(4)*/ 
+--     i.ia_sr_wid, 
+--     max('TRUE') FIRST_CONTACT_FLG, 
+--     max( APAD.TODO_ACTL_END_DT) KEEP (DENSE_RANK FIRST ORDER BY TODO_ACTL_END_DT) FIRST_CONTACT_DT, 
+--     max( APAD.OWNER_LOGIN ) KEEP (DENSE_RANK FIRST ORDER BY TODO_ACTL_END_DT) FIRST_CONTACT_IDIR, 
+--     max( APAD.ACTION_CD ) KEEP (DENSE_RANK FIRST ORDER BY TODO_ACTL_END_DT) FIRST_CONTACT_SOURCE 
+--     from ods.irsd_myss_intake_flow i 
+--     INNER JOIN ICM_STG.WC_ACTIVITY_PLAN_F APF 
+--         ON I.IA_SR_WID = APF.SR_WID 
+--             AND APF.DELETE_FLG = 'N' 
+--             AND APF.CREATED_DT >= " : Start.ICM_4_2_5_DATE : "  
+--     INNER JOIN ICM_STG.WC_ACTIVITY_PLAN_D APD 
+--         ON APD.ROW_WID = APF.ACT_PLAN_WID  
+--             AND APD.PLAN = 'SSAA' 
+--             AND APD.DELETE_FLG = 'N' 
+--     INNER JOIN ICM_STG.WC_ACT_PLAN_ACTIVITY_F APAF 
+--         ON APAF.ACT_PLAN_WID = APF.ACT_PLAN_WID 
+--             AND APD.DELETE_FLG = 'N' 
+--     INNER JOIN ICM_STG.WC_ACT_PLAN_ACTIVITY_D APAD 
+--         ON APAD.ROW_WID = APAF.ACT_PLAN_ACT_WID 
+--             AND APAD.DELETE_FLG = 'N'  
+--             AND APAD.TODO_ACTL_END_DT IS NOT NULL  
+--             AND APAD.OWNER_LOGIN IS NOT NULL  
+--             AND APAD.ACTION_CD IS NOT NULL  
+--             AND APAD.OWNER_LOGIN <> 'SADMIN'  
+--     /* may not have a EM record. Assume not PLMS*/ 
+--     LEFT JOIN IRSD_MYSS_PLMS_USERS O 
+--         ON  OWNER_LOGIN = O.LEAF_IDIR 
+--             and TODO_ACTL_END_DT between PAY_END_DT and Next_pay_end_dt 
+--     WHERE L3_RC IS NULL   /* NON PLMS WORKER*/ 
+--     group by  i.ia_sr_wid 
+-- ) SRC ON (TARGET.IA_SR_WID = SRC.IA_SR_WID) 
+-- WHEN MATCHED THEN UPDATE 
+-- SET target.PULLED_FLG = SRC.FIRST_CONTACT_FLG, 
+--     target.PULLED_DT = SRC.FIRST_CONTACT_DT, 
+--     target.PULLED_IDIR = SRC.FIRST_CONTACT_IDIR, 
+--     target.FIRST_CONTACT_SOURCE = SRC.FIRST_CONTACT_SOURCE, 
+--     target.FIRST_CONTACT_FLG = SRC.FIRST_CONTACT_FLG, 
+--     target.FIRST_CONTACT_DT = SRC.FIRST_CONTACT_DT, 
+--     target.FIRST_CONTACT_IDIR = SRC.FIRST_CONTACT_IDIR
+-- ;
+
+-- commit;
