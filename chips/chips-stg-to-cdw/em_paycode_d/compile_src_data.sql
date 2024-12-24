@@ -1,0 +1,8 @@
+SELECT "CODE_TYPE",
+    "CLASS",
+    "CLASS_DESCR",
+    "PAY_CD",
+    "PAY_DESCR",
+    "REDUCES_HOURS_WORKED"
+FROM "PAYCODES"
+;
