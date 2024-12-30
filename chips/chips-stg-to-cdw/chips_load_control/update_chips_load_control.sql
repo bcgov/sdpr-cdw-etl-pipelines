@@ -1,0 +1,5 @@
+-- not called in datastage due to variable
+-- UPDATE CHIPS_LOAD_CONTROL
+-- SET LOAD_END_DATE = SYSDATE
+-- WHERE LOAD_SKEY = Start.LOAD_SKEY
+-- ;

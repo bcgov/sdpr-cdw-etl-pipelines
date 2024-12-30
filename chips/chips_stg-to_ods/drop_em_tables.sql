@@ -1,0 +1,52 @@
+-- not currently called by datastage because datastage cant call plsql blocks
+
+-- declare 
+--     my_array sys.dbms_debug_vc2coll := sys.dbms_debug_vc2coll(
+--         'EM_TEMP_JCODE',
+--         'EM_TEMP_FTE_BURN1',
+--         'EM_TEMP_FTE_BURN2',
+--         'EM_TEMP_ACT_REAS1',
+--         'EM_TEMP_ACT_REAS2',
+--         'EM_TEMP_DEPT_TAB1',
+--         'EM_TEMP_DEPT_TAB2',
+--         'EM_TEMP_POS_DAT1',
+--         'EM_TEMP_POS_DAT2',
+--         'EM_TEMP_POS_NUM1',
+--         'EM_TEMP_LAST_PAY',
+--         'EM_TEMP_Q1',
+--         'EM_TEMP_Q2',
+--         'EM_TEMP_Q3',
+--         'EM_TEMP_Q4',
+--         'EM_TEMP_ACTN_REAS',
+--         'EM_TEMP_BU1',
+--         'EM_TEMP_BU2',
+--         'EM_TEMP_BU3',
+--         'EM_TEMP_BU4',
+--         'EM_TEMP_BU5',
+--         'EM_TEMP_BU6',
+--         'EM_TEMP_BU7',
+--         'EM_TEMP_BU8',
+--         'EM_TEMP_BU9',
+--         'EM_TEMP_BU10',
+--         'EM_TEMP_BU11',
+--         'EM_EMPL_MOVEMENT',
+--         'EM_CAN_NOC_TBL',
+--         'EM_EMPLID_2_IDIR',
+--         'EM_EMPLOYEE_MOVEMENT_T3',
+--         'EM_TEMP_EMPL_MOVEMENT',
+--         'EM_EMPL_MOVEMENT_TEMP2'
+--     );
+-- begin
+--     for tbl in my_array.first..my_array.last
+--     loop
+--         begin
+--             -- dbms_output.put_line(my_array(tbl));
+--             execute immediate 'drop table ods.' || my_array(tbl) || ' purge';
+--             exception
+--                 -- ignore all exceptions
+--                 when others then
+--                     dbms_output.put_line('ignored exception for: ' || my_array(tbl));
+--                     null;
+--         end;
+--     end loop;
+-- end;
