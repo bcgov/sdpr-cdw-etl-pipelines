@@ -64,5 +64,8 @@ class ChefsApi:
         status_endpoint = f'/submissions/{submission_id}/status'
         data = self.get_json(status_endpoint)
         df = pd.DataFrame.from_records(data) 
-        curr_status = df.sort_values(by='updatedAt', ascending=False)['code'].iloc[0]
+        try:
+            curr_status = df.sort_values(by='updatedAt', ascending=False)['code'].iloc[0]
+        except KeyError:
+            curr_status = None
         return curr_status
