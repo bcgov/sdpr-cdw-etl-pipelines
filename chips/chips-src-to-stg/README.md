@@ -16,6 +16,7 @@ Install packages in your virtual environment:
   1. go to the chips-src-to-stg directory: `cd chips\chips-src-to-stg`
   2. activate the venv in powershell terminal: `.venv\Scripts\Activate.ps1`
   3. install all packages in requirements.txt using the whl files in the wheels folder: `python -m pip install --no-index --find-links=wheels/ -r requirements.txt`
+  * If you just want to install a specific package from a folder containing wheels, run a command of the form: `pip install --no-index --find-links /path/to/wheel/dir/ pkg`
 * Online (if on your own machine): `pip install -r requirements.txt`
 
 ## Managing Libraries
