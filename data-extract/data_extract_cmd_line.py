@@ -12,7 +12,7 @@ this_dir = os.path.dirname(os.path.realpath(__file__))
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename=f'{this_dir}\data_extract.log',
+    filename=fr'{this_dir}\data_extract.log',
     filemode='w',
     level=logging.DEBUG, 
     format="{levelname} ({asctime}): {message}", 
