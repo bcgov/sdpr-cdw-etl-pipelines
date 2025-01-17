@@ -336,6 +336,7 @@ async def run_etl_worker(
     n_workers: int = 20, 
     start_task_sleep_time: float = 1,
     incremental_refresh: bool = True,
+    last_n_pay_dates_to_refresh_incrementally: int = None,
 ) -> None:
     """
     Runs async ETL tasks using a worker.
@@ -346,6 +347,9 @@ async def run_etl_worker(
         n_records_per_task (int): The number of records processed per ETL task.
         n_workers (int): The number of workers running asynchronously.
         start_task_sleep_time (float): Sleep time in seconds after adding a task to relieve load on API.
+        incremental_refresh (bool): will incrementally refresh tables that have this option when True.
+            Otherwise, a full refresh will be run.
+        last_n_pay_dates_to_refresh_incrementally (int): the last n pay end dates to refresh incrementally.
     """
     etl_engine.worker = AsyncWorker(
         task_count=n_workers, start_task_sleep_time=start_task_sleep_time
@@ -354,7 +358,7 @@ async def run_etl_worker(
     if endpoint[-8:] == '_by_date':
         if incremental_refresh:
             await refresh_last_n_pay_end_dates(
-                etl_engine=etl_engine, last_n_pay_end_dates=3
+                etl_engine=etl_engine, last_n_pay_end_dates=last_n_pay_dates_to_refresh_incrementally
             )
         else:
             await refresh_entire_pay_date_table(etl_engine=etl_engine)
@@ -379,6 +383,7 @@ def build_tables(
     n_task_workers: int = 25,
     start_task_sleep_time: int = 1,
     incremental_refresh: bool = True,
+    last_n_pay_dates_to_refresh_incrementally: int = None,
 ) -> None:
     """
     Builds tables by processing records from specified API endpoints.
@@ -387,6 +392,9 @@ def build_tables(
         endpoint_table_pairs (list[str]): List of tuples containing endpoint and table name.
         n_task_workers (int): Number of ETL tasks that can run concurrently.
         start_task_sleep_time (int): Sleep time after API requests to prevent server overload.
+        incremental_refresh (bool): will incrementally refresh tables that have this option when True.
+            Otherwise, a full refresh will be run.
+        last_n_pay_dates_to_refresh_incrementally (int): the last n pay end dates to refresh incrementally.
     """
     # Job metrics
     job_start = dt.datetime.now()
@@ -454,6 +462,7 @@ def build_tables(
                     n_workers=n_task_workers,
                     start_task_sleep_time=start_task_sleep_time,
                     incremental_refresh=incremental_refresh,
+                    last_n_pay_dates_to_refresh_incrementally=last_n_pay_dates_to_refresh_incrementally,
                 )
             )
             logger.info(f"Successfuly built {table}")

@@ -76,6 +76,7 @@ def main():
         n_task_workers=10,
         start_task_sleep_time=2,
         incremental_refresh=True,
+        last_n_pay_dates_to_refresh_incrementally=6,
     )
 
 if __name__ == "__main__":
