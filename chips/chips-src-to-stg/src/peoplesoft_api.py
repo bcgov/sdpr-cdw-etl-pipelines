@@ -60,7 +60,7 @@ class PeopleSoftAPI:
             Returns:
                 An authorization token for API requests
             """
-            pem_file_path = conf['project_sys_path'] + "\SDPR_keypair.pem"
+            pem_file_path = conf['project_sys_path'] + r"\SDPR_keypair.pem"
             with open(pem_file_path, "r") as file:
                 pem_key = file.read()
             epoch_time_now = int(time.time())
