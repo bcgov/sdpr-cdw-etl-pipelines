@@ -78,6 +78,8 @@ class OracleDB:
         """
         Creates a connection to an Oracle DB and opens a cursor.
         """
+        self.user = user
+        self.service_name = service_name
         self.conn = oracledb.connect(
             user=user,
             password=password,
