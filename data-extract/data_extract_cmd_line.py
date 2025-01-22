@@ -25,6 +25,8 @@ if __name__ == "__main__":
         db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
         data_extractor = DataExtractor(oracle_db=db)
         data_extractor.sql_to_xlsx(sys.argv[1], sys.argv[2])
+        logger.info(fr'finished the sql to xlsx extraction from {sys.argv[1]} to {sys.argv[2]}')
     except:
         logging.exception('Got exception on main handler')
-        raise
+        sys.exit(1)
+    sys.exit(0)
