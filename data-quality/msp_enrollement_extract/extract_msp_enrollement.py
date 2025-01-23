@@ -22,7 +22,7 @@ logging.basicConfig(
 )
 
 if __name__ == "__main__":
-    sql_file_path = fr'{this_dir}\dq-msp-enrollment.sql'
+    sql_file_path = fr'{this_dir}\dq_msp_enrollment.sql'
     xlsx_file_path = r'//sfp.idir.bcgov/s134/s34404/GetDoc/CDW-SDPR/DQ TL/MSP Enrollment ID by Case Number Report.xlsx'
     try:
         db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
