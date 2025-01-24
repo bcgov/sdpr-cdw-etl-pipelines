@@ -34,14 +34,13 @@ python "E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\e
 
 if %RET%==0 (
 	echo [%TIME%] %~n0 finished -- SUCCESS -- >>%BATCH_LOG_FILE% 
-) 
-else (
+) else (
 	echo [%TIME%] %~n0 finished -- FAILURE -- >>%BATCH_LOG_FILE% 
 )
 
 @CALL %ETL_BIN%\EnvironmentEnd.bat
 
-@POPD & ENDLOCAL & SET EXIT_CODE=%EXIT_CODE%  & SET AGENT_EXE=%AGENT_EXE%
+@POPD & ENDLOCAL & SET EXIT_CODE=%EXIT_CODE% & SET AGENT_EXE=%AGENT_EXE%
 
 @REM Send Return code back to ESP.
 %AGENT_EXE% %EXIT_CODE%
