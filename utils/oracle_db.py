@@ -38,6 +38,7 @@ class OracleDB:
             DatabaseException: If a connection to the database cannot be established.
         """
         if conn_str_key_endpoint is not None:
+            logger.info(fr'connecting to Oracle using connection string in WinReg sub-key: {conn_str_key_endpoint}')
             self.connect_w_win_reg(conn_str_key_endpoint=conn_str_key_endpoint)
         else:
             msg = 'Since conn_str_key_endpoint is None, use the connect function to connect to the DB.'
@@ -60,7 +61,7 @@ class OracleDB:
         self.conn = oracledb.connect(
             user=self.user,
             password=pwd,
-            dsn=f'{self.service_name}.world',
+            dsn=fr'{self.service_name}.world',
             config_dir="E:/Oracle/product/18.0.0/64bit/network/admin",
         )
         logger.info("connected to: " + self.service_name + "." + self.user)
