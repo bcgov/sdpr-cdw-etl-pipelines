@@ -1,6 +1,7 @@
 import sys
 from dotenv import load_dotenv
 import os
+import json
 load_dotenv()
 base_dir = os.getenv('PEOPLESOFT_ETL_BASE_DIR')
 sys.path.append(base_dir)
@@ -143,7 +144,8 @@ class AsyncPeopleSoftAPI:
 
         # Cache response data
         response_status = resp.status
-        data = await resp.json(content_type=None)
+        text = await resp.text()
+        data = json.loads(text)
         try:
             response_hasMore = data['hasMore']
             response_limit = data['limit']
