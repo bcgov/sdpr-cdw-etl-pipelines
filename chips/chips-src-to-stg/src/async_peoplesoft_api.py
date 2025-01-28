@@ -144,8 +144,7 @@ class AsyncPeopleSoftAPI:
 
         # Cache response data
         response_status = resp.status
-        text = await resp.text()
-        data = json.loads(text)
+        data = await resp.json(content_type=None)
         try:
             response_hasMore = data['hasMore']
             response_limit = data['limit']
