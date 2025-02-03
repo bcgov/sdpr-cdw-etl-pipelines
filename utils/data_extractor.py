@@ -71,7 +71,7 @@ class DataExtractor:
                 the file. False (default) := will not.
         """
         now = dt.datetime.now()
-        timestamp = now.strftime("%Y-%m-%d %H-%M-%S")
+        timestamp = now.strftime("%Y-%m-%d %H%M%S")
         xlsx_filename = xlsx_filename_before_timestamp + ' ' + timestamp + '.xlsx'
         xlsx_filepath = xlsx_dir + xlsx_filename
         self.sql_to_xlsx(sql_filepath, xlsx_filepath)
