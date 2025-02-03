@@ -27,7 +27,9 @@ call E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\.ven
 python "E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\extract_msp_enrollement.py"
 
 echo python finished with exit code = %ERRORLEVEL% >>%BATCH_LOG_FILE%
-echo see python-level .log file in %~dp0 >>%BATCH_LOG_FILE% 
+echo ----- start python log ----- >>%BATCH_LOG_FILE% 
+type %~dp0extract_msp_enrollement.log >>%BATCH_LOG_FILE% 
+echo ------ end python log ------ >>%BATCH_LOG_FILE% 
 
 @SET EXIT_CODE=%ERRORLEVEL%
 echo EXIT_CODE is %EXIT_CODE% >>%BATCH_LOG_FILE%
