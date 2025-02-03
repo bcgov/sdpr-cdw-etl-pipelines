@@ -1,0 +1,23 @@
+extraEnvVars:
+ - name: SSO_REDIS_CONNECT_PASSWORD
+   valueFrom:
+    secretKeyRef:
+      key: redis-password
+      name: session-store-redis
+extraEnvVarsSecret: "dev-sso-client-conf"
+mongodb:
+  enabled: false
+livenessProbe:
+  path: '/health'
+  initialDelaySeconds: 20
+readinessProbe:
+  path: '/health'
+  initialDelaySeconds: 20
+repository: 'https://github.com/bcgov/km-sso-client'
+revision: main
+persistence:
+  mountPath: /data
+  accessModes:
+    - ReadWriteMany
+service:
+  port: 3000

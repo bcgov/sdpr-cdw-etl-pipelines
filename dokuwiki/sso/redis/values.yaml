@@ -1,0 +1,4 @@
+replica:
+  replicaCount: 1
+networkPolicy:
+  enabled: false
