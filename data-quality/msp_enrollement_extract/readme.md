@@ -15,7 +15,7 @@ Relative to the base directory, `E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\
 ## Schedule
 * Frequency: Every business day
 * Time: 6am
-* Dependant on: HCDWLPPA and HCDWLPPW, i.e. the tables that are referenced in this sql file: `E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\dq_msp_enrollment.sql`
+* Dependant on: HCDWLPPE, i.e. the tables that are referenced in this sql file: `E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\dq_msp_enrollment.sql`
 * Successor Job(s): None
 * Approx run time: 1 min
 * Condition Code: 
