@@ -1,5 +1,6 @@
 @ECHO OFF
 @SETLOCAL & PUSHD
+setlocal ENABLEDELAYEDEXPANSION
 @REM ---------------------------------------------------------------
 @REM HCDWLPPA - populate SDD related ODS tables from ICM_STG.
 @REM
@@ -20,25 +21,27 @@
 
 :Job_Execution
 
+echo executed by %username% >>%BATCH_LOG_FILE%
+
 @REM activate virtual environment
 call E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\.venv\Scripts\activate.bat
 
 @REM run python job script
 python "E:\ETL_V8\sdpr-cdw-data-pipelines\data-quality\msp_enrollement_extract\extract_msp_enrollement.py"
 
-echo python finished with exit code = %ERRORLEVEL% >>%BATCH_LOG_FILE%
-echo ----- start python log ----- >>%BATCH_LOG_FILE% 
-type %~dp0extract_msp_enrollement.log >>%BATCH_LOG_FILE% 
-echo ------ end python log ------ >>%BATCH_LOG_FILE% 
+set PYTHON_EXIT_CODE=!ERRORLEVEL!
+echo python finished with exit code !PYTHON_EXIT_CODE! >>%BATCH_LOG_FILE%
 
-@SET EXIT_CODE=%ERRORLEVEL%
-echo EXIT_CODE is %EXIT_CODE% >>%BATCH_LOG_FILE%
-
-if %ERRORLEVEL%==0 (
+if !PYTHON_EXIT_CODE!==0 (
 	echo [%TIME%] %~n0 finished -- SUCCESS -- >>%BATCH_LOG_FILE% 
 ) else (
 	echo [%TIME%] %~n0 finished -- FAILURE -- >>%BATCH_LOG_FILE% 
+	echo ----- start python log ----- >>%BATCH_LOG_FILE% 
+	type %~dp0extract_msp_enrollement.log >>%BATCH_LOG_FILE% 
+	echo ------ end python log ------ >>%BATCH_LOG_FILE% 
 )
+
+@SET EXIT_CODE=!PYTHON_EXIT_CODE!
 
 @CALL %ETL_BIN%\EnvironmentEnd.bat
 
