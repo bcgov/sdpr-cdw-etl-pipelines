@@ -13,7 +13,9 @@ sys.path.append(base_dir)
 from src.etl_engine import ETLEngine
 from src.peoplesoft_api import PeopleSoftAPI
 from src.async_peoplesoft_api import AsyncPeopleSoftAPI
-from src.oracle_db import OracleDB
+main_base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(main_base_dir)
+from utils.oracle_db import OracleDB
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(

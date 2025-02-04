@@ -1,11 +1,13 @@
+import yaml
 import sys
 from dotenv import load_dotenv
 import os
 load_dotenv()
 base_dir = os.getenv('PEOPLESOFT_ETL_BASE_DIR')
 sys.path.append(base_dir)
-from src.oracle_db import OracleDB
-import yaml
+main_base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(main_base_dir)
+from utils.oracle_db import OracleDB
 
 with open(base_dir + '\\' + 'config.yml', 'r') as file:
     conf = yaml.safe_load(file)

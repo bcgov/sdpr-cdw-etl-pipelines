@@ -1,5 +1,4 @@
 import src.utils as utils
-from src.oracle_db import OracleDB
 from src.peoplesoft_api import PeopleSoftAPI
 from src.async_peoplesoft_api import AsyncPeopleSoftAPI
 from src.async_worker import AsyncWorker
@@ -13,6 +12,13 @@ import aiohttp
 import datetime as dt
 import ast
 import logging
+import sys
+from dotenv import load_dotenv
+import os
+load_dotenv()
+main_base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(main_base_dir)
+from utils.oracle_db import OracleDB
 
 logger = logging.getLogger('__main__.' + __name__)
 

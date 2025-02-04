@@ -8,7 +8,9 @@ import oracledb
 load_dotenv()
 base_dir = os.getenv('PEOPLESOFT_ETL_BASE_DIR')
 sys.path.append(base_dir)
-from src.oracle_db import OracleDB
+main_base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(main_base_dir)
+from utils.oracle_db import OracleDB
 
 # logging
 logger = logging.getLogger(__name__)

@@ -1,6 +1,5 @@
 from src.async_peoplesoft_api import AsyncPeopleSoftAPI
 from src.peoplesoft_api import PeopleSoftAPI
-from src.oracle_db import OracleDB
 from src.async_worker import AsyncWorker
 from src.etl_engine import ETLEngine
 import asyncio
@@ -12,10 +11,14 @@ import logging
 import pandas as pd
 from dotenv import load_dotenv
 import os
+import sys
+load_dotenv()
+main_base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(main_base_dir)
+from utils.oracle_db import OracleDB
 
 logger = logging.getLogger('__main__.' + __name__)
 
-load_dotenv()
 base_dir = os.getenv('PEOPLESOFT_ETL_BASE_DIR')
 with open(base_dir + '\\' + 'config.yml', 'r') as file:
     conf = yaml.safe_load(file)
