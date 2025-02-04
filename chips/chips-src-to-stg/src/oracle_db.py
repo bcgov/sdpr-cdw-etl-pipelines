@@ -1,8 +1,14 @@
 import oracledb
-from src.windows_registry import WindowsRegistry
 import src.utils as utils
 import pandas as pd
 import logging
+import sys
+from dotenv import load_dotenv
+import os 
+load_dotenv()
+base_dir = os.getenv('MAIN_BASE_DIR')
+sys.path.append(base_dir)
+from utils.windows_registry import WindowsRegistry
 
 logger = logging.getLogger('__main__.' + __name__)
 
