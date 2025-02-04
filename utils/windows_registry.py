@@ -3,7 +3,7 @@ import winreg
 
 class WindowsRegistry:
     def __init__(self):
-        pass
+        self.oracle_key_body = r'SOFTWARE\Datasources\SDSI\Databases\Oracle\\'
 
     def get_oracle_conn_str_paths(self):
         """
@@ -15,7 +15,7 @@ class WindowsRegistry:
         Returns:
             dict: A dictionary containing base path and list of endpoints.
         """
-        key_path = r"SOFTWARE\Datasources\SDSI\Databases\Oracle"
+        key_path = self.oracle_key_body
         aKey = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, key_path, 0, winreg.KEY_ALL_ACCESS)
         paths = {"base_path": key_path + "\\", "endpoints": []}
         try:
@@ -39,9 +39,8 @@ class WindowsRegistry:
             str: The Oracle DB connection string.
         """
         local_computer_key = winreg.ConnectRegistry(None, winreg.HKEY_LOCAL_MACHINE)
-        conn_str_subkey_body = r"SOFTWARE\Datasources\SDSI\Databases\Oracle\\"
-        conn_str_subkey = conn_str_subkey_body + conn_str_key_endpoint
-        conn_str_key = winreg.OpenKey(local_computer_key, rf"{conn_str_subkey}")
+        key_path = self.oracle_key_body + conn_str_key_endpoint
+        conn_str_key = winreg.OpenKey(local_computer_key, rf"{key_path}")
         name, value, type = winreg.EnumValue(conn_str_key, 0)
         winreg.CloseKey(conn_str_key)
         return value
