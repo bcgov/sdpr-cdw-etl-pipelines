@@ -31,13 +31,13 @@ if __name__ == "__main__":
     try:
         db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
         data_extractor = DataExtractor(oracle_db=db)
-        data_extractor.sql_to_xlsx_with_timestamp(
+        xlsx_timestamped_filepath = data_extractor.sql_to_xlsx_with_timestamp(
             sql_file_path, 
             xlsx_dir, 
             xlsx_filename_before_timestamp,
-            delete_old_timestamped_xlsx_files=True,
+            # delete_old_timestamped_xlsx_files=True,
         )
-        logger.info(fr'finished the sql to xlsx extraction from {sql_file_path} to {xlsx_file_path}')
+        logger.info(fr'finished the sql to xlsx extraction from {sql_file_path} to {xlsx_timestamped_filepath}')
     except:
         logging.exception('Got exception on main handler')
         sys.exit(1)

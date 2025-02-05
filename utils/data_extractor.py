@@ -79,6 +79,7 @@ class DataExtractor:
             self.delete_old_timestamped_xlsx_files(
                 xlsx_dir, xlsx_filename_before_timestamp, xlsx_filename
             )
+        return xlsx_filepath
 
     def delete_old_timestamped_xlsx_files(
         self, xlsx_dir, xlsx_filename_before_timestamp, xlsx_filename_w_curr_timestamp
