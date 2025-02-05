@@ -35,7 +35,7 @@ if __name__ == "__main__":
             sql_file_path, 
             xlsx_dir, 
             xlsx_filename_before_timestamp,
-            # delete_old_timestamped_xlsx_files=True,
+            delete_old_timestamped_xlsx_files=True,
         )
         logger.info(fr'finished the sql to xlsx extraction from {sql_file_path} to {xlsx_timestamped_filepath}')
     except:
