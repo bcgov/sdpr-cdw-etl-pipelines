@@ -23,7 +23,6 @@ logging.basicConfig(
 )
 
 sql_file_path = fr'{this_dir}\dq_msp_enrollment.sql'
-xlsx_file_path = r'//sfp.idir.bcgov/s134/s34404/GetDoc/CDW-SDPR/DQ TL/MSP Enrollment ID by Case Number Report.xlsx'
 xlsx_dir = r'//sfp.idir.bcgov/s134/s34404/GetDoc/CDW-SDPR/DQ TL/'
 xlsx_filename_before_timestamp = r'MSP Enrollment ID by Case Number Report'
 
