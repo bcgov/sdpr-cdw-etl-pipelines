@@ -26,7 +26,7 @@ Since our ETL servers require offline installs, I created a folder called `wheel
 
 To refresh the venv_downloads folder based on the current `requirements.txt` file, you need to be on a machine that let's you access the internet so you can use `pip download ...`. From such a machine:
 1. delete existing whl files in the wheels folder
-2. download the whl files for all packages in requirements.txt into the wheels folder: `pip download -r ../requirements.txt -d wheels`
+2. download the whl files for all packages in requirements.txt into the wheels folder: `pip download -r requirements.txt -d wheels`
 
 Now, you can merge these changes made on your local machine into the main branch, pull the changes on the servers, and do an offline install on the servers.
 
