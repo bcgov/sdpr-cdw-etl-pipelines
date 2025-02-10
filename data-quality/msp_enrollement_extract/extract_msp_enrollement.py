@@ -24,18 +24,29 @@ logging.basicConfig(
 
 sql_file_path = fr'{this_dir}\dq_msp_enrollment.sql'
 xlsx_dir = r'//sfp.idir.bcgov/s134/s34404/GetDoc/CDW-SDPR/DQ TL/'
+mounted_xlsx_dir = r'L:/GetDoc/CDW-SDPR/DQ TL/'
 xlsx_filename_before_timestamp = r'MSP Enrollment ID by Case Number Report'
 
 if __name__ == "__main__":
     try:
         db = OracleDB(conn_str_key_endpoint=os.getenv('ORACLE_CONN_STRING_KEY'))
         data_extractor = DataExtractor(oracle_db=db)
-        xlsx_timestamped_filepath = data_extractor.sql_to_xlsx_with_timestamp(
-            sql_file_path, 
-            xlsx_dir, 
-            xlsx_filename_before_timestamp,
-            delete_old_timestamped_xlsx_files=True,
-        )
+        try:
+            # try with UNC dir
+            xlsx_timestamped_filepath = data_extractor.sql_to_xlsx_with_timestamp(
+                sql_file_path, 
+                xlsx_dir, 
+                xlsx_filename_before_timestamp,
+                delete_old_timestamped_xlsx_files=True,
+            )
+        except PermissionError:
+            # try with mounted dir
+            xlsx_timestamped_filepath = data_extractor.sql_to_xlsx_with_timestamp(
+                sql_file_path, 
+                mounted_xlsx_dir, 
+                xlsx_filename_before_timestamp,
+                delete_old_timestamped_xlsx_files=True,
+            )
         logger.info(fr'finished the sql to xlsx extraction from {sql_file_path} to {xlsx_timestamped_filepath}')
     except:
         logging.exception('Got exception on main handler')
