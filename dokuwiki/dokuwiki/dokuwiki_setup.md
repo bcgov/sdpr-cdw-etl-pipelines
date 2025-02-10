@@ -15,4 +15,4 @@
  
 * If an nginx proxy hasn't been deployed for your namespace to handle authentication and routing yet, the AMP wiki has a [guide for this](https://dev.azure.com/bc-icm/FODIG/_wiki/wikis/FODIG.wiki/280/SSO-(IDIR-Auth)). This guide is copied in this repo dir at sso/proxy_setup.md
 
-* Backups can be installed using AMPs [custom dokuwiki backup tool](https://github.com/bcgov/km-dokuwiki-backup) or they can be managed manually.
+* Backups can be installed using AMPs [custom dokuwiki backup tool](https://github.com/bcgov/km-dokuwiki-backup) or they can be managed manually. AMPs backup tool has been adapted for the purposes of the SDPR CDW DokuWiki [here](https://github.com/bcgov/sdpr-cdw-helm-charts/tree/main/charts/dokuwiki-backup).
