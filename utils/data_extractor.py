@@ -5,6 +5,7 @@ import os
 import datetime as dt
 import shutil
 from pathlib import Path
+import urllib.request
 
 logger = logging.getLogger('__main__.' + __name__)
 
@@ -39,9 +40,13 @@ class DataExtractor:
         """
         # logging to debug PermissionError's due to parent not being recognized as a dir
         parent = Path(xlsx_filepath).parent
-        logger.debug(f'xlsx_filepath parent is: {parent}')
-        logger.debug(f'xlsx_filepath parent is a dir: {parent.is_dir()}')
-        
+        logger.debug(f'Proxies: {urllib.request.getproxies()}')
+        logger.debug(f'xlsx_filepath parent: {parent}')
+        try:
+            logger.debug(f'xlsx_filepath parent is a dir: {parent.is_dir()}')
+        except PermissionError:
+            logger.debug(f'the user running this script does not have access to the xlsx_filepath parent directory')
+
         sql_str = self.get_file_content_as_str(filepath=sql_filepath)
         sql_queries = self.split_sql_statements_in_str(sql_str=sql_str)
         with pd.ExcelWriter(path=xlsx_filepath, engine='xlsxwriter') as writer:
