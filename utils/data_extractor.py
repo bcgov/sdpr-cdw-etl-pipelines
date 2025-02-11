@@ -6,6 +6,7 @@ import datetime as dt
 import shutil
 from pathlib import Path
 import urllib.request
+import subprocess
 
 logger = logging.getLogger('__main__.' + __name__)
 
@@ -37,10 +38,10 @@ class DataExtractor:
         Args:
             sql_filepath (str): the path to the .sql input file 
             xlsx_filepath (str): the path to the xlsx output file
-        """
+        """      
         # logging to debug PermissionError's due to parent not being recognized as a dir
+        logger.debug(f'Proxies: {urllib.request.getproxies()}')  
         parent = Path(xlsx_filepath).parent
-        logger.debug(f'Proxies: {urllib.request.getproxies()}')
         logger.debug(f'xlsx_filepath parent: {parent}')
         try:
             logger.debug(f'xlsx_filepath parent is a dir: {parent.is_dir()}')
@@ -131,3 +132,23 @@ class DataExtractor:
             shutil.copy(src = src, dst = dst)
         except PermissionError:
             pass
+
+    def map_drive(self, drive, dir, username, password, persistent='yes'):
+        """
+        Mounts dir to drive using username and password as credentials
+        Args:
+            persistent (yes/no): wheather the drive persists. 'yes' by default.
+        """
+        cmd = fr'net use {drive} {dir} /user:{username} {password} persistent:{persistent}'
+        logger.debug(fr'net use {drive} {dir} /user:{username} [password]')
+        subprocess.call(cmd, shell=True)
+
+    def delete_drive(self, drive):
+        """
+        deletes drive
+        """
+        cmd = fr'net use {drive} /del'
+        logger.debug(cmd)
+        subprocess.call(cmd, shell=True)
+
+        
