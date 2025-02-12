@@ -1,4 +1,59 @@
-SELECT 
+with
+
+pay_period_end_date_load_control as (
+    select pay_period_end_date 
+    from cdw.chips_load_control 
+    where load_in_progress_ind = 1
+),
+
+ranked_depts as (
+    select dept.*,
+        row_number() over (partition by setid, deptid order by effdt desc) as rn
+    from chips_stg.ps_dept_tbl dept
+),
+
+latest_eff_dt_by_dept as (
+    select *
+    from ranked_depts
+    where rn = 1
+),
+
+load_latest_eff_dt_by_dept as (
+    select * 
+    from latest_eff_dt_by_dept
+    where effdt <= (
+        select * 
+        from pay_period_end_date_load_control
+    )
+),
+
+ranked_companies AS (
+    select co.*,
+        row_number() over (partition by company order by effdt desc) as rn
+    from chips_stg.ps_company_tbl co
+),
+
+latest_eff_dt_by_company as (
+    select *
+    from ranked_companies
+    where rn = 1
+),
+
+load_latest_eff_dt_by_company as (
+    select * 
+    from latest_eff_dt_by_company
+    where effdt <= (
+        select * 
+        from pay_period_end_date_load_control
+    )
+),
+
+level_query as (
+    select setid, deptid, descr, descrshort, effdt 
+    from load_latest_eff_dt_by_dept
+)
+
+select 
     px.setid || px.tree_node as bu_bk,
     leaf.descr as bu_descr,
     leaf.deptid as bu_deptid,
@@ -62,167 +117,61 @@ SELECT
     leaf.tgb_gl_service_ln as gl_service_ln,
     leaf.tgb_gl_project as gl_project,
     leaf.tgb_gl_stob as gl_stob
-FROM chips_stg.px_tree_flattened PX
+from chips_stg.px_tree_flattened px
 
 left join (
-    select setid, deptid, descr, descrshort, company,effdt,
+    select setid, deptid, descr, descrshort, company, effdt,
         tgb_gl_client, tgb_gl_response, tgb_gl_service_ln, tgb_gl_project, tgb_gl_stob
-    /* omit future dated changes for department and company records. */
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid = d2.setid 
-            and d1.deptid = d2.deptid
-            and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-        )
+    from load_latest_eff_dt_by_dept
 ) leaf
     on px.setid=leaf.setid 
         and px.tree_node=leaf.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt 
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid=d2.setid 
-            and d1.deptid=d2.deptid
-            and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l1 
     on px.setid=l1.setid 
         and px.l1_tree_node=l1.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid = d2.setid 
-            and d1.deptid = d2.deptid
-            and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l2 
     on px.setid = l2.setid 
         and px.l2_tree_node = l2.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid=d2.setid 
-            and d1.deptid=d2.deptid
-		    and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l3 
     on px.setid = l3.setid 
         and px.l3_tree_node = l3.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid=d2.setid 
-            and d1.deptid=d2.deptid
-		    and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l4 
     on px.setid = l4.setid 
         and px.l4_tree_node = l4.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt 
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid = d2.setid 
-            and d1.deptid = d2.deptid
-		    and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l5 
     on px.setid = l5.setid 
         and px.l5_tree_node = l5.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid = d2.setid 
-            and d1.deptid = d2.deptid
-		    and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l6 
     on px.setid = l6.setid 
         and px.l6_tree_node = l6.deptid
 
 left join (
-    select setid, deptid, descr, descrshort, effdt
-    from chips_stg.ps_dept_tbl d1
-    where effdt = (
-        select max(effdt) 
-        from chips_stg.ps_dept_tbl d2 
-        where d1.setid=d2.setid 
-            and d1.deptid=d2.deptid
-		    and d2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    select * from level_query
 ) l7 
     on px.setid = l7.setid 
         and px.l7_tree_node = l7.deptid
 
 left join (
     select company, descr, descrshort 
-    from chips_stg.ps_company_tbl t1
-    where effdt = (
-        select max(effdt)
-        from chips_stg.ps_company_tbl t2 
-        where t1.company=t2.company 
-            and t2.effdt <= (
-                select pay_period_end_date 
-                from cdw.chips_load_control 
-                where load_in_progress_ind = 1
-            )
-    )
+    from load_latest_eff_dt_by_company
 ) cmp 
     on leaf.company=cmp.company
 
@@ -235,19 +184,14 @@ left join (
 
 where px.tree_name = 'DEPT_SECURITY'
     and px.setid not in ('QEGID', 'COMMN','ST000')
-    -- filter for QEGID added in June 2013 ; this started causing issues (NULL value attributes) after PeopleSoft upgrade
     and px.setid like 'ST%'
-    -- filter updated Sept 2017; database move started causing issues (NULL GL value attributes) after PeopleSoft upgrade with new SetIDs found in PreProd DB
-    -- found extra eets in the pstreenode table which did not join ot the ps dept tbl and resulted in null values for non null GL columns
-    -- May 25th TSS  only select the latest row from the PX file to be added to the SCD
+    -- only select the latest row from the PX file to be added to the SCD
     and px.effdt = (
         select max(px2.effdt) 
         from chips_stg.px_tree_flattened px2 
         where px2.setid = px.setid 
             and px2.tree_node = px.tree_node
     )
-    /* May 25th TSS getting many rows coming into the process, as department changes occuring after effective date of dataset. */
-    -- and PX.EFFDT >= nvl( bu.eff_Date,to_date('19000101','yyyymmdd'))
-    and greatest(px.effdt, leaf.effdt) >= nvl(bu.eff_date,to_date('19000101', 'yyyymmdd'))
+    and greatest(px.effdt, leaf.effdt) >= nvl(bu.eff_date, to_date('19000101', 'yyyymmdd'))
 order by px.setid || px.tree_node, greatest(px.effdt, leaf.effdt)
 ;
