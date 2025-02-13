@@ -167,7 +167,7 @@ class AsyncPeopleSoftAPI:
             response_links = data['links']
         except KeyError as e:
             # attempted to access a non-existant key in data
-            logger.info(f'KeyError ({e}) raised when trying to log response data for params={request_params}')
+            logger.debug(f'KeyError for {e} raised when trying to log response data for params={request_params}')
             response_hasMore = None
             response_limit = None
             response_offset = None
