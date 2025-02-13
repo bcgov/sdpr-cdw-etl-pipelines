@@ -167,16 +167,16 @@ class AsyncPeopleSoftAPI:
             response_links = data['links']
         except KeyError as e:
             # attempted to access a non-existant key in data
-            logger.debug(f'{e} raised when trying to log response data')
+            logger.info(f'KeyError ({e}) raised when trying to log response data for params={request_params}')
             response_hasMore = None
             response_limit = None
             response_offset = None
             response_count = None
             response_links = None
-        except aiohttp.http_exceptions.TransferEncodingError as e:
+        except aiohttp.client_exceptions.ClientPayloadError as e:
             # response didn't return data
-            logger.info(f'encountered {e} where params={request_params} and logged failed request (to be retried at end of job)')
-            response_status = aiohttp.http_exceptions.TransferEncodingError.code
+            logger.info(f'ClientPayloadError ({e}) raised when trying to log response data for params={request_params}; request was logged with error status code so it should be retried at end of job')
+            response_status = 400
             response_hasMore = None
             response_limit = None
             response_offset = None
