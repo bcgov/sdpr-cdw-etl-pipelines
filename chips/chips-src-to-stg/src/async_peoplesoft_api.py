@@ -1,12 +1,3 @@
-import sys
-from dotenv import load_dotenv
-import os
-import json
-load_dotenv()
-base_dir = os.getenv('PEOPLESOFT_ETL_BASE_DIR')
-sys.path.append(base_dir)
-import src.utils as utils
-from src.oracle_db import OracleDB
 import aiohttp
 import asyncio
 import time
@@ -133,7 +124,7 @@ class AsyncPeopleSoftAPI:
             trace_configs=[trace_config],
         )
 
-        # Cache request data
+        # collect request data for logging
         request_url = self.base_url + url
         request_params = params
         request_headers = headers
@@ -150,18 +141,42 @@ class AsyncPeopleSoftAPI:
         )
 
         response_time = dt.datetime.now()
-        logger.info(f"Got: {endpoint} {params} | status: {resp.status}")
-
-        # Cache response data
         response_status = resp.status
-        data = await resp.json(content_type=None)
+        logger.info(f"Got: {endpoint} {params} | status: {response_status}")
+
+        await self.log_response_data(
+            response=resp, request_url=request_url, request_params=request_params, 
+            request_headers=request_headers, request_proxy=request_proxy, 
+            request_time=request_time, session=session, response_time=response_time,
+            response_status=response_status
+        )
+
+        return resp
+
+    async def log_response_data(
+        self, response, request_url, request_params, request_headers, 
+        request_proxy, request_time, session, response_time, response_status
+        ):
+        """Logs get request + response data in Oracle"""
         try:
+            data = await response.json(content_type=None)
             response_hasMore = data['hasMore']
             response_limit = data['limit']
             response_offset = data['offset']
             response_count = data['count']
             response_links = data['links']
-        except KeyError:
+        except KeyError as e:
+            # attempted to access a non-existant key in data
+            logger.debug(f'{e} raised when trying to log response data')
+            response_hasMore = None
+            response_limit = None
+            response_offset = None
+            response_count = None
+            response_links = None
+        except aiohttp.http_exceptions.TransferEncodingError as e:
+            # response didn't return data
+            logger.info(f'encountered {e} where params={request_params} and logged failed request (to be retried at end of job)')
+            response_status = aiohttp.http_exceptions.TransferEncodingError.code
             response_hasMore = None
             response_limit = None
             response_offset = None
@@ -218,8 +233,6 @@ class AsyncPeopleSoftAPI:
                     'response_links': str(response_links),
                 },
             )
-
-        return resp
 
     async def get_json(
         self, session: aiohttp.ClientSession, endpoint: str, params: dict = {}
