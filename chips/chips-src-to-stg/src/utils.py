@@ -353,8 +353,6 @@ def data_model_consistencies(data_model_mapping: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-import math
-
 def is_nan(value) -> bool:
     """
     Check if a value is NaN (Not a Number).
